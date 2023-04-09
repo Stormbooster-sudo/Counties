@@ -410,13 +410,6 @@
         console.log(res)
         window.location.reload()
     })
-    logout_btn.addEventListener('click', async ()=>{
-      const res = await window.electronAPI.logout()
-      if(res){
-        console.log(res)
-        window.location.href = "login.html"
-      }
-    })
   </script>
 </body>
 

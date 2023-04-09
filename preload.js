@@ -2,8 +2,6 @@
 const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('electronAPI', {
-  login: (payload) => ipcRenderer.invoke('login', payload),
-  register: (payload) => ipcRenderer.invoke('register', payload),
   addTask: (payload) => ipcRenderer.invoke('add-task', payload),
   doneTask: (payload) => ipcRenderer.invoke('done-task', payload),
   getUser: () => ipcRenderer.invoke('get-user'),

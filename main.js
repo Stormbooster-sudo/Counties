@@ -34,12 +34,7 @@ const createWindow = () => {
   // childWin.webContents.openDevTools()
   mainWindow.removeMenu()
   mainWindow.setMenu(null)
-  if(!store.has('token') || (store.get('token') == '')){
-    mainWindow.loadFile('src/login.html')
-  }
-  else{
-    mainWindow.loadFile('src/index.html')
-  }
+  mainWindow.loadFile('src/index.html')
   mainWindow.on('minimize',function(event){
     event.preventDefault();
     mainWindow.hide();
@@ -79,15 +74,8 @@ const createWindow = () => {
   appIcon.setContextMenu(contextMenu);
 }
 
-const checkToken = async () => {
-  const userid = store.get('user_id')
-  const res = await axios.get(`${url}/task/${userid}`, {headers:{'x-access-token': store.get('token')}}).catch((err)=>store.delete('token'));
-}
-
 app.whenReady().then(() => {
-  checkToken()
   createWindow()
-  
   var autoLaunch = new AutoLaunch({
     name: 'Counties',
     path: app.getPath('exe'),
@@ -103,44 +91,23 @@ app.whenReady().then(() => {
   })
 })
 
-
-ipcMain.handle("login", async (event,data) => {
-  const res = await axios.post("${url}/login",{email:data.email, password: data.password});
-  // const body = await response.text();
-  console.log(res.data)
-  if(res.data.token){
-    store.set('token', res.data.token)
-    store.set('username', res.data.data.username)
-    store.set('user_id', res.data.id)
-    console.log('token save')
-  }
-  return res.data;
-})
-
-ipcMain.handle("register", async (event,data) => {
-  const res = await axios.post("${url}/register",{username:data.username, email:data.email, password: data.password});
-  // const body = await response.text();
-  // console.log(res.data)
-  return res.data;
-})
-
 ipcMain.handle("add-task", async (event, data) =>{
   data.userid = store.get('user_id')
-  const res = axios.post(`${url}/task/add`, data,{headers:{'x-access-token': store.get('token')}});
+  // const res = axios.post(`${url}/task/add`, data,{headers:{'x-access-token': store.get('token')}});
   // console.log(res)
   return res.status;
 } )
 
 ipcMain.handle("get-tasks", async () =>{
   const userid = store.get('user_id')
-  const res = await axios.get(`${url}/task/${userid}`, {headers:{'x-access-token': store.get('token')}});
+  const res = {data: {}}
   // console.log(res.data)
+  res.data = {}
   return res.data
 } )
 
 ipcMain.handle("done-task", async (event, data) => {
   const task_id = data;
-  const res = await axios.get(`${url}/task/done/${task_id}`, {headers:{'x-access-token': store.get('token')}});
   console.log(res.data);
   return res.data
 })
@@ -148,7 +115,7 @@ ipcMain.handle("done-task", async (event, data) => {
 ipcMain.handle("delete-task", async (event, data) => {
   const task_id = data
   console.log(data)
-  const res = await axios.get(`${url}/task/delete/${task_id}`, {headers:{'x-access-token': store.get('token')}});
+  // const res = await axios.get(`${url}/task/delete/${task_id}`, {headers:{'x-access-token': store.get('token')}});
   console.log(res.data)
   return res.data
 })
