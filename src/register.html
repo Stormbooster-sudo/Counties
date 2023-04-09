@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8' />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/main.css">
+<script defer src="js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+<style>
+body {
+    background-color:rgb(30, 28, 28);
+    font-family: "Nura Font";
+    color: white;
+    padding-top: 2em;
+}
+.main {
+  margin-left: 200px; /* Same as the width of the sidenav */
+}
+
+#calendar {
+  max-width: 100%;
+  height: 50em;
+  margin: 0;
+}
+a{
+  color: #f1f1f1;
+  text-decoration: none;
+}
+.fc-daygrid-day-frame:hover{
+  background-color: #dfdfdf;
+}
+.login-form-box{
+    background-color: rgb(38, 41, 44);
+    width: 33em;
+    height: 42em;
+    border-radius: 1em;
+    margin: auto;
+    padding: 2em;
+    text-align: center;
+}
+.login-form{
+    text-align: left;
+}
+.form-group{
+    margin-bottom: 1em;
+}
+</style>
+</head>
+<body>
+<div class="login-form-box">
+    <!-- <img src="./media/app-icon.png" style="width: 60%;"> -->
+    <h2 style="margin-bottom: 1em;">Register</h2>
+    <div class="login-form">
+        <form>
+            <div class="form-group" >
+                <label for="username">Username</label>
+                <input type="username" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter username" onchange="handleUserName()" required>
+              </div>
+            <div class="form-group" >
+              <label for="email">Email address</label>
+              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" onchange="handleEmail()" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" placeholder="Password" onchange="handlePWD()" required>
+            </div>
+            <button id="regist-btn" type="button" class="btn btn-primary" style="width: 100%;margin-bottom: 0.5em;background-color:lightgreen;border: none;">Register</button>
+            <a  style="" href="./login.html">Back to Login Page</a>
+          </form>
+    </div>
+</div>
+<script>
+    const regist_btn = document.getElementById('regist-btn');
+    var email = document.getElementById('email');
+    var password = document.getElementById('password');
+    var username = document.getElementById('username');
+    var data = {username: "", email:"", password:""}
+
+    const handleEmail = () =>{
+       data.email = email.value
+        // console.log(data)
+    }
+    const handlePWD = () =>{
+        data.password = password.value
+        // console.log(data)
+    }
+    const handleUserName = () =>{
+        data.username = username.value
+        // console.log(data)
+    }
+
+    regist_btn.addEventListener('click',async ()=>{
+        if(!data.username || !data.email || !data.password){
+          console.log("fill form")
+        }
+        else{
+          console.log(data)
+          const res = await window.electronAPI.register(data)
+          console.log(res)
+          if(res && (res.status == 'register success')){
+              window.location.href = './login.html'
+          }
+        }
+    })
+</script>
+</body>
+
+</html> 

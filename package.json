@@ -1,0 +1,26 @@
+{
+  "name": "Counties",
+  "productName": "Counties",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package-win": "electron-packager . Counties --overwrite --asar=true --platform=win32 --arch=x64 --icon=app-icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"Counties\""
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^23.1.2",
+    "electron-packager": "^17.1.1"
+  },
+  "dependencies": {
+    "auto-launch": "^5.0.5",
+    "axios": "^1.3.4",
+    "bootstrap": "^5.3.0-alpha1",
+    "bootstrap-icons": "^1.10.3",
+    "electron-store": "^8.1.0",
+    "fullcalendar": "^6.1.4",
+    "react": "^18.2.0"
+  }
+}
