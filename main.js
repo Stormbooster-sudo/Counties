@@ -30,7 +30,7 @@ const createWindow = () => {
     }
   })
 
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
   // childWin.webContents.openDevTools()
   mainWindow.removeMenu()
   mainWindow.setMenu(null)
