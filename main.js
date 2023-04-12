@@ -4,10 +4,12 @@ const axios = require('axios')
 const Store = require('electron-store');
 const AutoLaunch = require('auto-launch')
 const { access } = require('fs');
+const PounchDB = require('pouchdb')
 const url = ""
 
 const store = new Store();
-const createWindow = () => {
+const db = new PounchDB('eventDB')
+const createWindow = async () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
@@ -30,23 +32,24 @@ const createWindow = () => {
     }
   })
 
-  mainWindow.webContents.openDevTools()
-  // childWin.webContents.openDevTools()
+
+ 
   mainWindow.removeMenu()
   mainWindow.setMenu(null)
-  mainWindow.loadFile('src/index.html')
-  mainWindow.on('minimize',function(event){
+  await mainWindow.loadFile('src/index.html')
+  mainWindow.webContents.openDevTools()
+  mainWindow.on('minimize',async function(event){
     event.preventDefault();
     mainWindow.hide();
     if(store.has("child-pos")&&store.has("child-size")){
       const pos = store.get("child-pos")
       const size = store.get("child-size")
       childWin.setPosition(pos[0],pos[1])
-      childWin.setSize(size[0], size[1])
     }
     childWin.removeMenu()
     childWin.setMenu(null)
-    childWin.loadFile('src/index_child.html')
+    await childWin.loadFile('src/index_child.html')
+    childWin.webContents.openDevTools()
     childWin.show();
   });
   mainWindow.on ('close', () => { 
@@ -92,18 +95,20 @@ app.whenReady().then(() => {
 })
 
 ipcMain.handle("add-task", async (event, data) =>{
-  data.userid = store.get('user_id')
+  const res = await db.post(data)
+  console.log(res)
   // const res = axios.post(`${url}/task/add`, data,{headers:{'x-access-token': store.get('token')}});
   // console.log(res)
-  return res.status;
+  // return res.status;
 } )
 
 ipcMain.handle("get-tasks", async () =>{
-  const userid = store.get('user_id')
-  const res = {data: {}}
+  const res = await db.allDocs({
+    include_docs: true
+  });
+  console.log(res.rows)
   // console.log(res.data)
-  res.data = {}
-  return res.data
+  return res.rows
 } )
 
 ipcMain.handle("done-task", async (event, data) => {
@@ -118,18 +123,6 @@ ipcMain.handle("delete-task", async (event, data) => {
   // const res = await axios.get(`${url}/task/delete/${task_id}`, {headers:{'x-access-token': store.get('token')}});
   console.log(res.data)
   return res.data
-})
-
-ipcMain.handle('get-user', () =>{
-  return store.get('username');
-})
-
-ipcMain.handle('logout', ()=>{
-  store.delete('token')
-  store.delete('username')
-  store.delete('user_id')
-  console.log("Logout")
-  return "logout success";
 })
 
 

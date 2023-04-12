@@ -38,7 +38,8 @@ const colorScale = (perc) => {
 const returnCard = (cards) => {
   return cards
     .map((card) => {
-      var perc = (calDay(card.data.start) / 30) * 100;
+      console.log(card)
+      var perc = (calDay(card.doc.start) / 30) * 100;
       perc = perc > 100 ? 99 : perc;
       // console.log(perc)
       return `    
@@ -59,16 +60,16 @@ const returnCard = (cards) => {
                 a 15.9155 15.9155 0 0 1 0 -31.831"
             />
             <text x="18" y="19" class="percentage">${
-              calDay(card.data.start) == 0 ? "Today" : calDay(card.data.start)
+              calDay(card.doc.start) == 0 ? "Today" : calDay(card.doc.start)
             }</text>
             <text x="18" y="24" class="percentage" style="font-size: 0.3em;">${
-              calDay(card.data.start) == 0 ? "" : "Days"
+              calDay(card.doc.start) == 0 ? "" : "Days"
             }</text>
           </svg>
         </div>
         <div class="card-body">
-          <h5 class="card-title">${card.data.title}</h5>
-          <p class="card-text">${card.data.detail}</p>
+          <h5 class="card-title">${card.doc.title}</h5>
+          <p class="card-text">${card.doc.detail}</p>
         </div>
   </div>
   <div class="modal fade" id="openCard${
@@ -78,15 +79,15 @@ const returnCard = (cards) => {
     <div class="modal-content">
       <div class="modal-header" style="background-color:${colorScale(perc)};" >
         <h5 class="modal-title" id="exampleModalLongTitle">${
-          card.data.title
+          card.doc.title
         }</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p class="due-text">Due : ${card.data.start}</p>
-        <p>"${card.data.detail}"</p>
+        <p class="due-text">Due : ${card.doc.start}</p>
+        <p>"${card.doc.detail}"</p>
       </div>
       <div class="modal-footer">
         <button id="done-btn" type="button" class="btn btn-primary"  style="width: 100%;" onclick=\"MaskAsDone(\'${
@@ -104,7 +105,8 @@ const returnCard = (cards) => {
 const returnDoneCard = (cards) => {
   return cards
     .map((card) => {
-      var perc = (calDay(card.data.start) / 30) * 100;
+      console.log(card)
+      var perc = (calDay(card.doc.start) / 30) * 100;
       perc = perc > 100 ? 99 : perc;
       // console.log(perc)
       return `    
@@ -126,22 +128,22 @@ const returnDoneCard = (cards) => {
           </svg>
         </div>
         <div class="card-body">
-          <h5 class="card-title">${card.data.title}</h5>
-          <p class="card-text">${card.data.detail}</p>
+          <h5 class="card-title">${card.doc.title}</h5>
+          <p class="card-text">${card.doc.detail}</p>
         </div>
   </div>
   <div class="modal fade" id="openDoneCard${card.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: gray;" >
-        <h5 class="modal-title" id="exampleModalLongTitle">${card.data.title}</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">${card.doc.title}</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>"${card.data.detail}"</p>
-        <p class="due-text">Due : ${card.data.start}</p>
+        <p>"${card.doc.detail}"</p>
+        <p class="due-text">Due : ${card.doc.start}</p>
       </div>
       <div class="modal-footer">
         <button id="done-btn" type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width: 100%;" onclick=\"deleteTask(\'${card.id}\')\" >Delete</button>
@@ -154,31 +156,29 @@ const returnDoneCard = (cards) => {
     .join(" ");
 };
 window.onload = async function () {
-  const tasks = await window.electronAPI
-    .getTasks()
-    .catch((err) => (window.location.href = "login.html"));
-  // console.log(tasks.length)
+  const tasks = await window.electronAPI.getTasks()
+  console.log(tasks)
   if (tasks.length != null) {
     var sort_task = tasks
-      .sort((t1, t2) => new Date(t1.data.start) - new Date(t2.data.start))
-      .filter((t) => t.data.status == "undone");
-    var outOfDate = sort_task.filter((t) => calDay(t.data.start) < 0);
-    sort_task = sort_task.filter((t) => calDay(t.data.start) >= 0);
-    var done_task = tasks.filter((t) => t.data.status == "done");
+      .sort((t1, t2) => new Date(t1.doc.start) - new Date(t2.doc.start))
+      .filter((t) => t.doc.status == "undone");
+    var outOfDate = sort_task.filter((t) => calDay(t.doc.start) < 0);
+    sort_task = sort_task.filter((t) => calDay(t.doc.start) >= 0);
+    var done_task = tasks.filter((t) => t.doc.status == "done");
+
     if (outOfDate.length) {
       // console.log(outOfDate.length)
       outOfDate.map(
         async (task) => await window.electronAPI.deleteTask(task.id)
       );
     }
+    console.log(sort_task)
     cardShow.innerHTML += returnCard(sort_task);
     doneCardShow.innerHTML += returnDoneCard(done_task);
   }
-  // console.log(done_task)
-  // console.log(outOfDate)
-  // console.log(sort_task)
-  const username = await window.electronAPI.getUser();
-  // window.localStorage.setItem('username',username);
-  headerTitle.innerHTML = username + "'s Task";
+  console.log(done_task)
+  console.log(outOfDate)
+  console.log(sort_task)
+  window.localStorage.setItem('tasks',JSON.stringify(sort_task));
   // console.log(username)
 };
