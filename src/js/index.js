@@ -97,7 +97,7 @@ const returnCard = (cards) => {
       <div class="modal-footer">
         <button id="done-btn" type="button" class="btn btn-primary"  style="width: 100%;" onclick=\"MaskAsDone(\'${
           card.id
-        }\')\" >Done</button>
+        }\')\" >Mask as Done</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width: 100%;">Close</button>
       </div>
     </div>

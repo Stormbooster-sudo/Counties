@@ -208,6 +208,18 @@
               <label for="taskDetail">Detail</label>
               <textarea class="form-control" id="taskDetail" rows="3" placeholder="Task Detail" onchange="handleTaskDetail()"></textarea>
             </div>
+            <div class="form-group">
+              <label for="taskCalendarColor">Color (Calendar)</label>
+              <input id="taskCalendarColor" type="color" list="presets" rows="4" value="#46AF5F" onchange="handleColor()">
+                <datalist id="presets">
+                  <option value="#46AF5F">Medium Sea Green</option>
+                  <option value="#F6AF41">Yellow</option>
+                  <option value="#E0002F">Red</option>
+                  <option value="#FF00FF">Fuchsia</option>
+                  <option value="#0000FF">Blue</option>
+                  <option value="#1987B5">Aqua</option>
+                </datalist>
+            </div>
           </form>
         </div>
         <div class="modal-footer" >
@@ -224,9 +236,11 @@
     const logout_btn = document.getElementById("logout-btn");
     var startDate = document.getElementById("startDate");
     var detail = document.getElementById("taskDetail");
+    var color = document.getElementById('taskCalendarColor')
+    
     var title = document.getElementById("taskTitle");
     var headerTitle = document.getElementById("header-title")
-    var task = {title:"", detail:"", start: new Date(), status: 'undone'}
+    var task = {title:"", detail:"", start: new Date(), status: 'undone', color: '#46AF5F'}
     // headerTitle.innerHTML = username
 
     const handleTitle = () =>{
@@ -241,6 +255,11 @@
       task.start = startDate.value
       console.log(task)
     }
+    const handleColor = () =>{
+      task.color = color.value
+      console.log(task)
+    }
+
     add_btn.addEventListener('click',async ()=>{
         console.log(task)
         const res = await window.electronAPI.addTask(task)
