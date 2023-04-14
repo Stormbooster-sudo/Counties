@@ -84,11 +84,12 @@
       document.addEventListener("DOMContentLoaded", function () {
         var calendarEl = document.getElementById("calendar");
         window.onload = async function () {
-          const tasks = await window.electronAPI.getTasks();
-          // var task_data = tasks.map((t) => t.data).filter((t) => t.status == "undone");
-          // console.log(task_data)
+          const tasks = JSON.parse(await window.localStorage.getItem('undone_task'))
+          var tasks_data = tasks.map((t) =>t.doc)
+          console.log(tasks_data)
           var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: "dayGridMonth",
+            height: 750,
             selectable: true,
             headerToolbar: {
               left: "prev,next today",
@@ -99,7 +100,7 @@
             },
             select: function (info) {
             },
-            // events: task_data,
+            events: tasks_data,
           });
 
           calendar.render();
