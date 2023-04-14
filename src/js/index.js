@@ -1,3 +1,7 @@
+var tasks = []
+var sort_task = []
+var outOfDate = []
+var done_task = []
 const MaskAsDone = async (id) => {
   console.log(id);
   const res = await window.electronAPI.doneTask(id);
@@ -102,6 +106,7 @@ const returnCard = (cards) => {
     })
     .join(" ");
 };
+
 const returnDoneCard = (cards) => {
   return cards
     .map((card) => {
@@ -155,16 +160,19 @@ const returnDoneCard = (cards) => {
     })
     .join(" ");
 };
+
+setInterval(function() {window.location.reload()}, 3600000)
+
 window.onload = async function () {
-  const tasks = await window.electronAPI.getTasks()
+  tasks = await window.electronAPI.getTasks()
   console.log(tasks)
   if (tasks.length != null) {
-    var sort_task = tasks
+    sort_task = tasks
       .sort((t1, t2) => new Date(t1.doc.start) - new Date(t2.doc.start))
       .filter((t) => t.doc.status == "undone");
-    var outOfDate = sort_task.filter((t) => calDay(t.doc.start) < 0);
+    outOfDate = sort_task.filter((t) => calDay(t.doc.start) < 0);
     sort_task = sort_task.filter((t) => calDay(t.doc.start) >= 0);
-    var done_task = tasks.filter((t) => t.doc.status == "done");
+    done_task = tasks.filter((t) => t.doc.status == "done");
 
     if (outOfDate.length) {
       // console.log(outOfDate.length)
@@ -182,3 +190,5 @@ window.onload = async function () {
   window.localStorage.setItem('tasks',JSON.stringify(sort_task));
   // console.log(username)
 };
+
+

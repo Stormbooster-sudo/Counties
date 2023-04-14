@@ -1,9 +1,7 @@
 const { app, BrowserWindow, Tray, Menu, ipcMain } = require('electron')
 const path = require('path')
-const axios = require('axios')
 const Store = require('electron-store');
 const AutoLaunch = require('auto-launch')
-const { access } = require('fs');
 const PounchDB = require('pouchdb')
 const url = ""
 
@@ -24,8 +22,8 @@ const createWindow = async () => {
     frame:false,
     opacity:0.9,
     transparent:true,
-    width: 700,
-    height: 300,
+    width: 450,
+    height: 200,
     show:false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
@@ -48,8 +46,8 @@ const createWindow = async () => {
     }
     childWin.removeMenu()
     childWin.setMenu(null)
-    await childWin.loadFile('src/index_child.html')
-    childWin.webContents.openDevTools()
+    childWin.loadFile('src/index_child.html')
+    // childWin.webContents.openDevTools()
     childWin.show();
   });
   mainWindow.on ('close', () => { 
@@ -73,7 +71,7 @@ const createWindow = async () => {
         app.quit();
     } }
   ]);
-  appIcon.setToolTip('Electron.js App');
+  appIcon.setToolTip('Counties');
   appIcon.setContextMenu(contextMenu);
 }
 

@@ -42,8 +42,8 @@ const returnCard = (cards) => {
         a 15.9155 15.9155 0 0 1 0 31.831
         a 15.9155 15.9155 0 0 1 0 -31.831"
     />
-    <text x="18" y="19" class="percentage" style="font-size:0.45em;">${calDay(card.doc.start) == 0 ? "Today" : calDay(card.doc.start)}</text>
-    <text x="18" y="24" class="percentage" style="font-size: 0.3em;">${calDay(card.doc.start) == 0 ? "" : "Days"}</text>
+    ${calDay(card.doc.start) == 0 ? `<text x="18" y="19" class="percentage" style="font-size:0.45em;">Today</text>` :`<text x="18" y="19" class="percentage" style="font-size:0.75em;">${calDay(card.doc.start)}</text>`}
+    <text x="18" y="24" class="percentage" style="font-size: 0.25em;">${calDay(card.doc.start) == 0 ? "" : "Days"}</text>
   </svg>
 </div>
 <div class="card-body">
@@ -54,6 +54,7 @@ const returnCard = (cards) => {
     })
     .join(" ");
 };
+setInterval(function() {window.location.reload()}, 3600000)
 window.onload = async function () {
   const tasks = JSON.parse(await window.localStorage.getItem('tasks'))
   console.log(tasks)
