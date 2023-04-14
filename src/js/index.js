@@ -2,6 +2,7 @@ var tasks = []
 var sort_task = []
 var outOfDate = []
 var done_task = []
+
 const MaskAsDone = async (id) => {
   console.log(id);
   const res = await window.electronAPI.doneTask(id);
@@ -165,11 +166,13 @@ setInterval(function() {window.location.reload()}, 3600000)
 
 window.onload = async function () {
   tasks = await window.electronAPI.getTasks()
-  console.log(tasks)
   if (tasks.length != null) {
     sort_task = tasks
       .sort((t1, t2) => new Date(t1.doc.start) - new Date(t2.doc.start))
       .filter((t) => t.doc.status == "undone");
+
+    window.localStorage.setItem('undone_task', JSON.stringify(sort_task))
+
     outOfDate = sort_task.filter((t) => calDay(t.doc.start) < 0);
     sort_task = sort_task.filter((t) => calDay(t.doc.start) >= 0);
     done_task = tasks.filter((t) => t.doc.status == "done");

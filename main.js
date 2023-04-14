@@ -95,34 +95,44 @@ app.whenReady().then(() => {
 ipcMain.handle("add-task", async (event, data) =>{
   const res = await db.post(data)
   console.log(res)
-  // const res = axios.post(`${url}/task/add`, data,{headers:{'x-access-token': store.get('token')}});
-  // console.log(res)
-  // return res.status;
+  return res.ok;
 } )
 
 ipcMain.handle("get-tasks", async () =>{
   const res = await db.allDocs({
     include_docs: true
   });
-  console.log(res.rows)
-  // console.log(res.data)
   return res.rows
 } )
 
 ipcMain.handle("done-task", async (event, data) => {
-  const task_id = data;
-  console.log(res.data);
-  return res.data
+  const doc_id = data;
+  try {
+    var doc = await db.get(doc_id);
+    var res = await db.put({
+      _id: doc_id,
+      _rev: doc._rev,
+      title: doc.title,
+      detail: doc.detail,
+      start: doc.start,
+      status: "done"
+    });
+  } catch (err) {
+    console.log(err);
+  }
+  return res.ok
 })
 
 ipcMain.handle("delete-task", async (event, data) => {
-  const task_id = data
-  console.log(data)
-  // const res = await axios.get(`${url}/task/delete/${task_id}`, {headers:{'x-access-token': store.get('token')}});
-  console.log(res.data)
-  return res.data
+  const doc_id = data
+  try {
+    var doc = await db.get(doc_id);
+    var res = await db.remove(doc);
+  } catch (err) {
+    console.log(err);
+  }
+  return res.ok
 })
-
 
 app.on('window-all-closed', () => {
   console.log()
