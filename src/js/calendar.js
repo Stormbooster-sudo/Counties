@@ -1,6 +1,7 @@
 const alertModal = new bootstrap.Modal('#alertModal')
 const confirmButton = document.getElementById("confirm-change")
 const selectedDate = document.getElementById("add-calendar-modal")
+const sidenav = document.getElementById("sidenavbar")
 var task = {title:"", detail:"", start: new Date(), status: 'undone', color: '#46AF5F'}
 
 const addTaskCalendarModal = (date) =>{
@@ -47,6 +48,7 @@ const addTaskCalendarModal = (date) =>{
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+    sidenav.innerHTML += navbar(['','active'])
     var calendarEl = document.getElementById("calendar");
     window.onload = async function () {
       const tasks = JSON.parse(await window.localStorage.getItem('undone_task'))

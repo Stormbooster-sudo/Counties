@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/main.css">
 
     <script defer src="js/bootstrap.bundle.min.js"></script>
+    <!-- use "defer" for bootstrap module -->
     <script defer src="js/calendar.js"></script>  
     <script defer src="js/index.js"></script>  
     <link
@@ -16,9 +17,6 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <style>
-      .main {
-        margin-left: 200px; /* Same as the width of the sidenav */
-      }
 
       @media screen and (max-height: 450px) {
         .sidenav {
@@ -46,11 +44,8 @@
     </style>
   </head>
   <body>
-    <div class="sidenav">
-      <a href="index.html" ><i class="bi bi-house-door" style="font-size: 26px; margin-right: 5px;"></i></a>
-      <a href="calendar.html" class="active"><i class="bi bi-calendar3" style="font-size: 23px; margin-right: 6px;margin-left: 2px;padding-top: 4px"></i></a>
-      <a class="logout-btn" style="position: fixed;bottom: 0;text-align: center;width: 3.2em;" data-bs-toggle="modal" data-bs-target="#logoutAlert"><i class="bi bi-box-arrow-left" style="font-size: 23px; margin-right: 6px;margin-left: 2px;padding-top: 4px"></i></a>
-    </div>
+    <div class="sidenav" id="sidenavbar">
+  </div>
     <div class="modal fade" id="logoutAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog  modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -93,9 +88,10 @@
 
     <div
       class="container"
-      style="margin-top: 1em; margin-left: 10em; margin-right: 7em"
+      style="margin-top: 1em; margin-left: 9em; margin-right: 7em"
     >
       <div id="calendar"></div>
     </div>
+    
   </body>
 </html>

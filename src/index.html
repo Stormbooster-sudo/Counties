@@ -15,7 +15,6 @@
     .main {
       margin-left: 200px;
       padding-right: 4em;
-      /* Same as the width of the sidenav */
     }
 
     @media screen and (max-height: 450px) {
@@ -111,11 +110,7 @@
 </head>
 
 <body style="padding: 0;">
-
-  <div class="sidenav">
-    <a href="index.html" class="active"><i class="bi bi-house-door" style="font-size: 26px; margin-right: 5px;"></i></a>
-    <a href="calendar.html"><i class="bi bi-calendar3" style="font-size: 23px; margin-right: 6px;margin-left: 2px;padding-top: 4px"></i></a>
-    <a class="logout-btn" style="position: fixed;bottom: 0;text-align: center;width: 3.2em;" data-bs-toggle="modal" data-bs-target="#logoutAlert"><i class="bi bi-box-arrow-left" style="font-size: 23px; margin-right: 6px;margin-left: 2px;padding-top: 4px"></i></a>
+  <div class="sidenav" id="sidenavbar">
   </div>
   <div class="modal fade" id="logoutAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog  modal-dialog-centered" role="document">
@@ -138,7 +133,7 @@
   </div>
 
   <div class="main" style="margin-top: 1em;margin-left: 9em;margin-right: 0em;">
-    <h1 id="header-title">Task</h1>
+    <h1>Task</h1>
       <div class="auto-grid" id="card-show" style="margin: 0; margin-bottom: 3em;">
       </div> 
     <h1>Done Task</h1>
@@ -193,14 +188,11 @@
   </div>
 
   <script>
+    var sidenav = document.getElementById("sidenavbar")
     var cardShow = document.getElementById("card-show");
     var doneCardShow = document.getElementById("done-card-show")
     const add_btn = document.getElementById("add-btn");
     const logout_btn = document.getElementById("logout-btn");
-    // var startDate = document.getElementById("startDate");
-    // var detail = document.getElementById("taskDetail");
-    // var color = document.getElementById('taskCalendarColor')
-    // var title = document.getElementById("taskTitle");
     var headerTitle = document.getElementById("header-title")
     var task = {title:"", detail:"", start: new Date(), status: 'undone', color: '#46AF5F'}
     // headerTitle.innerHTML = username
