@@ -64,9 +64,7 @@ const returnCard = (cards) => {
                 a 15.9155 15.9155 0 0 1 0 31.831
                 a 15.9155 15.9155 0 0 1 0 -31.831"
             />
-            <text x="18" y="19" class="percentage">${
-              calDay(card.doc.start) == 0 ? "Today" : calDay(card.doc.start)
-            }</text>
+            ${calDay(card.doc.start) == 0 ? `<text x="18" y="20" class="percentage" style="font-size:0.50em;">Today</text>` :`<text x="18" y="19" class="percentage" style="font-size:0.70em;">${calDay(card.doc.start)}</text>`}
             <text x="18" y="24" class="percentage" style="font-size: 0.3em;">${
               calDay(card.doc.start) == 0 ? "" : "Days"
             }</text>
@@ -130,7 +128,7 @@ const returnDoneCard = (cards) => {
                 a 15.9155 15.9155 0 0 1 0 31.831
                 a 15.9155 15.9155 0 0 1 0 -31.831"
             />
-            <text x="18" y="19" class="percentage">Done!</text>
+            <text x="18" y="20" class="percentage">Done!</text>
           </svg>
         </div>
         <div class="card-body">
