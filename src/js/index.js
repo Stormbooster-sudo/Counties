@@ -152,6 +152,7 @@ const returnDoneCard = (cards) => {
       <div class="modal-body">
         <p>"${card.detail}"</p>
         <p class="due-text">Due : ${card.start}</p>
+        <p class="due-text">Done : ${card.done}</p>
       </div>
       <div class="modal-footer">
         <button id="done-btn" type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width: 100%;" onclick=\"deleteTask(\'${card._id}\')\" >Delete</button>

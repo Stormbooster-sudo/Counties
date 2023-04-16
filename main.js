@@ -2,6 +2,7 @@ const { app, BrowserWindow, Tray, Menu, ipcMain } = require('electron')
 const path = require('path')
 const Store = require('electron-store');
 const AutoLaunch = require('auto-launch')
+const moment = require('moment');
 const PounchDB = require('pouchdb')
 const url = ""
 
@@ -106,6 +107,7 @@ ipcMain.handle("get-tasks", async () =>{
 } )
 
 ipcMain.handle("done-task", async (event, data) => {
+  const get_date = new Date()
   const doc_id = data;
   try {
     var doc = await db.get(doc_id);
@@ -115,7 +117,8 @@ ipcMain.handle("done-task", async (event, data) => {
       title: doc.title,
       detail: doc.detail,
       start: doc.start,
-      status: "done"
+      status: "done",
+      done: moment().format("YYYY-MM-DD hh:mm")
     });
   } catch (err) {
     console.log(err);
