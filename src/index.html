@@ -161,19 +161,19 @@
           <form>
             <div class="form-group">
               <label for="taskTitle">Title</label>
-              <input id="taskTitle" class="form-control" type="text" rows="1"  placeholder="Task Title" onchange="handleTitle()">
+              <input id="taskTitle" class="form-control" type="text" rows="1"  placeholder="Task Title" onchange="handleTitle(this.value)">
             </div>
             <div class="form-group" >
               <label for="startDate">Due Date</label>
-              <input id="startDate" class="form-control" rows="2"  type="date" onchange="handleStartDate()"/>
+              <input id="startDate" class="form-control" rows="2"  type="date" onchange="handleStartDate(this.value)"/>
             </div>
             <div class="form-group">
               <label for="taskDetail">Detail</label>
-              <textarea class="form-control" id="taskDetail" rows="3" placeholder="Task Detail" onchange="handleTaskDetail()"></textarea>
+              <textarea class="form-control" id="taskDetail" rows="3" placeholder="Task Detail" onchange="handleTaskDetail(this.value)"></textarea>
             </div>
             <div class="form-group">
               <label for="taskCalendarColor">Color (Calendar)</label>
-              <input id="taskCalendarColor" type="color" list="presets" rows="4" value="#46AF5F" onchange="handleColor()">
+              <input id="taskCalendarColor" type="color" list="presets" rows="4" value="#46AF5F" onchange="handleColor(this.value)">
                 <datalist id="presets">
                   <option value="#46AF5F">Medium Sea Green</option>
                   <option value="#F6AF41">Yellow</option>
@@ -197,36 +197,34 @@
     var doneCardShow = document.getElementById("done-card-show")
     const add_btn = document.getElementById("add-btn");
     const logout_btn = document.getElementById("logout-btn");
-    var startDate = document.getElementById("startDate");
-    var detail = document.getElementById("taskDetail");
-    var color = document.getElementById('taskCalendarColor')
-    
-    var title = document.getElementById("taskTitle");
+    // var startDate = document.getElementById("startDate");
+    // var detail = document.getElementById("taskDetail");
+    // var color = document.getElementById('taskCalendarColor')
+    // var title = document.getElementById("taskTitle");
     var headerTitle = document.getElementById("header-title")
     var task = {title:"", detail:"", start: new Date(), status: 'undone', color: '#46AF5F'}
     // headerTitle.innerHTML = username
 
-    const handleTitle = () =>{
-      task.title = title.value
+    const handleTitle = (value) =>{
+      task.title = value
       console.log(task)
     }
-    const handleTaskDetail = () =>{
-      task.detail = detail.value
+    const handleTaskDetail = (value) =>{
+      task.detail = value
       console.log(task)
     }
-    const handleStartDate = () =>{
-      task.start = startDate.value
+    const handleStartDate = (value) =>{
+      task.start = value
       console.log(task)
     }
-    const handleColor = () =>{
-      task.color = color.value
+    const handleColor = (value) =>{
+      task.color = value
       console.log(task)
     }
 
     add_btn.addEventListener('click',async ()=>{
         console.log(task)
         const res = await window.electronAPI.addTask(task)
-        console.log(res)
         window.location.reload()
     })
   </script>
