@@ -134,6 +134,28 @@ ipcMain.handle("delete-task", async (event, data) => {
   return res.ok
 })
 
+ipcMain.handle("update-date-task", async (event, data) => {
+  console.log(data)
+  const doc_id = data.id
+  const doc_start = data.start
+  try {
+    var doc = await db.get(doc_id);
+    var res = await db.put({
+      _id: doc_id,
+      _rev: doc._rev,
+      title: doc.title,
+      detail: doc.detail,
+      status: doc.status,
+      start: doc_start,
+      color: doc.color
+    });
+  } catch (err) {
+    console.log(err);
+  }
+  console.log(res)
+  return res.ok
+})
+
 app.on('window-all-closed', () => {
   console.log()
   if (process.platform !== 'darwin') app.quit()
