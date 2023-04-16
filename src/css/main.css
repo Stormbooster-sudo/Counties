@@ -81,6 +81,11 @@ button.close {
   border-bottom: none;
 }
 
+.modal-title{
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .modal-content {
   background-color: #3c3c3c;
 }

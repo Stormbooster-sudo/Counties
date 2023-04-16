@@ -1,5 +1,6 @@
 const alertModal = new bootstrap.Modal('#alertModal')
 const confirmButton = document.getElementById("confirm-change")
+const cancelButton = document.getElementById("cancel-change")
 const selectedDate = document.getElementById("add-calendar-modal")
 const sidenav = document.getElementById("sidenavbar")
 var task = {title:"", detail:"", start: new Date(), status: 'undone', color: '#46AF5F'}
@@ -70,6 +71,9 @@ document.addEventListener("DOMContentLoaded", function () {
           confirmButton.addEventListener('click', async function(event) {
             const res = await window.electronAPI.updateDateTask(data)
             alertModal.hide()
+          })
+          cancelButton.addEventListener('click', event => {
+            window.location.reload()
           })
         },
         dateClick: function(info) {
