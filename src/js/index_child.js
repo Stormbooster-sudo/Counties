@@ -8,9 +8,7 @@ const calDay = (d) => {
 };
 
 const colorScale = (perc) => {
-  var r,
-    g,
-    b = 0;
+  var r,g,b = 0;
   if (perc < 50) {
     r = 255;
     g = Math.round(5.1 * perc);
@@ -25,7 +23,7 @@ const colorScale = (perc) => {
 const returnCard = (cards) => {
   return cards
     .map((card) => {
-      var perc = (calDay(card.doc.start) / 30) * 100;
+      var perc = (calDay(card.start) / 30) * 100;
       perc = perc > 100 ? 99 : perc;
       console.log(perc);
       return `    
@@ -43,12 +41,12 @@ const returnCard = (cards) => {
         a 15.9155 15.9155 0 0 1 0 31.831
         a 15.9155 15.9155 0 0 1 0 -31.831"
     />
-    ${calDay(card.doc.start) == 0 ? `<text x="18" y="20" class="percentage" style="font-size:0.5em;">Today</text>` :`<text x="18" y="19" class="percentage" style="font-size:0.75em;">${calDay(card.doc.start)}</text>`}
-    <text x="18" y="24" class="percentage" style="font-size: 0.25em;">${calDay(card.doc.start) == 0 ? "" : "Days"}</text>
+    ${calDay(card.start) == 0 ? `<text x="18" y="20" class="percentage" style="font-size:0.5em;">Today</text>` :`<text x="18" y="19" class="percentage" style="font-size:0.75em;">${calDay(card.start)}</text>`}
+    <text x="18" y="24" class="percentage" style="font-size: 0.25em;">${calDay(card.start) == 0 ? "" : "Days"}</text>
   </svg>
 </div>
 <div class="card-body">
-  <p class="card-text">${card.doc.title}</p>
+  <p class="card-text">${card.title}</p>
 </div>
 </div>
 `;

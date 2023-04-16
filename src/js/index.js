@@ -1,4 +1,3 @@
-var tasks = []
 var sort_task = []
 var outOfDate = []
 var done_task = []
@@ -34,9 +33,7 @@ const calDay = (d) => {
 };
 
 const colorScale = (perc) => {
-  var r,
-    g,
-    b = 0;
+  var r,g,b = 0;
   if (perc < 50) {
     r = 255;
     g = Math.round(5.1 * perc);
@@ -51,12 +48,12 @@ const returnCard = (cards) => {
   return cards
     .map((card) => {
       console.log(card)
-      var perc = (calDay(card.doc.start) / 30) * 100;
+      var perc = (calDay(card.start) / 30) * 100;
       perc = perc > 100 ? 99 : perc;
       // console.log(perc)
       return `    
       <div class="card" style="width: 15rem;text-align: center;min-width: 15em;border:none;cursur: pointer;" data-bs-toggle="modal" data-bs-target="#openCard${
-        card.id
+        card._id
       }">
         <div class="single-chart">
           <svg viewBox="0 0 36 36" class="circular-chart" >
@@ -71,37 +68,37 @@ const returnCard = (cards) => {
                 a 15.9155 15.9155 0 0 1 0 31.831
                 a 15.9155 15.9155 0 0 1 0 -31.831"
             />
-            ${calDay(card.doc.start) == 0 ? `<text x="18" y="20" class="percentage" style="font-size:0.50em;">Today</text>` :`<text x="18" y="19" class="percentage" style="font-size:0.70em;">${calDay(card.doc.start)}</text>`}
+            ${calDay(card.start) == 0 ? `<text x="18" y="20" class="percentage" style="font-size:0.50em;">Today</text>` :`<text x="18" y="19" class="percentage" style="font-size:0.70em;">${calDay(card.start)}</text>`}
             <text x="18" y="24" class="percentage" style="font-size: 0.3em;">${
-              calDay(card.doc.start) == 0 ? "" : "Days"
+              calDay(card.start) == 0 ? "" : "Days"
             }</text>
           </svg>
         </div>
         <div class="card-body">
-          <h5 class="card-title">${card.doc.title}</h5>
-          <p class="card-text">${card.doc.detail}</p>
+          <h5 class="card-title">${card.title}</h5>
+          <p class="card-text">${card.detail}</p>
         </div>
   </div>
   <div class="modal fade" id="openCard${
-    card.id
+    card._id
   }" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color:${colorScale(perc)};" >
         <h5 class="modal-title" id="exampleModalLongTitle">${
-          card.doc.title
+          card.title
         }</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p class="due-text">Due : ${card.doc.start}</p>
-        <p>"${card.doc.detail}"</p>
+        <p class="due-text">Due : ${card.start}</p>
+        <p>"${card.detail}"</p>
       </div>
       <div class="modal-footer">
         <button id="done-btn" type="button" class="btn btn-primary"  style="width: 100%;" onclick=\"MaskAsDone(\'${
-          card.id
+          card._id
         }\')\" >Mask as Done</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width: 100%;">Close</button>
       </div>
@@ -117,11 +114,11 @@ const returnDoneCard = (cards) => {
   return cards
     .map((card) => {
       console.log(card)
-      var perc = (calDay(card.doc.start) / 30) * 100;
+      var perc = (calDay(card.start) / 30) * 100;
       perc = perc > 100 ? 99 : perc;
       // console.log(perc)
       return `    
-      <div class="card" style="width: 15rem;text-align: center;min-width: 15em;border:none;cursur: pointer;" data-bs-toggle="modal" data-bs-target="#openDoneCard${card.id}">
+      <div class="card" style="width: 15rem;text-align: center;min-width: 15em;border:none;cursur: pointer;" data-bs-toggle="modal" data-bs-target="#openDoneCard${card._id}">
         <div class="single-chart">
           <svg viewBox="0 0 36 36" class="circular-chart" >
             <path class="circle-bg"
@@ -139,25 +136,25 @@ const returnDoneCard = (cards) => {
           </svg>
         </div>
         <div class="card-body">
-          <h5 class="card-title">${card.doc.title}</h5>
-          <p class="card-text">${card.doc.detail}</p>
+          <h5 class="card-title">${card.title}</h5>
+          <p class="card-text">${card.detail}</p>
         </div>
   </div>
-  <div class="modal fade" id="openDoneCard${card.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal fade" id="openDoneCard${card._id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: gray;" >
-        <h5 class="modal-title" id="exampleModalLongTitle">${card.doc.title}</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">${card.title}</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>"${card.doc.detail}"</p>
-        <p class="due-text">Due : ${card.doc.start}</p>
+        <p>"${card.detail}"</p>
+        <p class="due-text">Due : ${card.start}</p>
       </div>
       <div class="modal-footer">
-        <button id="done-btn" type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width: 100%;" onclick=\"deleteTask(\'${card.id}\')\" >Delete</button>
+        <button id="done-btn" type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width: 100%;" onclick=\"deleteTask(\'${card._id}\')\" >Delete</button>
       </div>
     </div>
   </div>
@@ -169,19 +166,20 @@ const returnDoneCard = (cards) => {
 
 setInterval(function() {window.location.reload()}, 3600000)
 
-window.onload = async function () {
-  sidenav.innerHTML += navbar(['active',''])
-  tasks = await window.electronAPI.getTasks()
+const fetchData = async () => {
+  var tasks = await window.electronAPI.getTasks()
+  tasks = tasks.map((t) =>t.doc)
+  console.log(tasks)
   if (tasks.length != null) {
     sort_task = tasks
-      .sort((t1, t2) => new Date(t1.doc.start) - new Date(t2.doc.start))
-      .filter((t) => t.doc.status == "undone");
+      .sort((t1, t2) => new Date(t1.start) - new Date(t2.start))
+      .filter((t) => t.status == "undone");
 
     window.localStorage.setItem('undone_task', JSON.stringify(sort_task))
 
-    outOfDate = sort_task.filter((t) => calDay(t.doc.start) < 0);
-    sort_task = sort_task.filter((t) => calDay(t.doc.start) >= 0);
-    done_task = tasks.filter((t) => t.doc.status == "done");
+    outOfDate = sort_task.filter((t) => calDay(t.start) < 0);
+    sort_task = sort_task.filter((t) => calDay(t.start) >= 0);
+    done_task = tasks.filter((t) => t.status == "done");
 
     if (outOfDate.length) {
       // console.log(outOfDate.length)
@@ -197,6 +195,11 @@ window.onload = async function () {
   console.log(outOfDate)
   console.log(sort_task)
   window.localStorage.setItem('tasks',JSON.stringify(sort_task));
+}
+
+window.onload = async function () {
+  sidenav.innerHTML += navbar(['active',''])
+  fetchData()
   // console.log(username)
 };
 

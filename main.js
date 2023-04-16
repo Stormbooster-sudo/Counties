@@ -95,7 +95,7 @@ app.whenReady().then(() => {
 ipcMain.handle("add-task", async (event, data) =>{
   const res = await db.post(data)
   console.log(res)
-  return res.ok;
+  return res;
 } )
 
 ipcMain.handle("get-tasks", async () =>{

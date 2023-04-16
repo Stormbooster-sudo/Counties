@@ -51,9 +51,9 @@ document.addEventListener("DOMContentLoaded", function () {
     sidenav.innerHTML += navbar(['','active'])
     var calendarEl = document.getElementById("calendar");
     window.onload = async function () {
-      const tasks = JSON.parse(await window.localStorage.getItem('undone_task'))
-      var tasks_data = tasks.map((t) =>t.doc)
+      var tasks_data = JSON.parse(await window.localStorage.getItem('undone_task'))
       tasks_data.map((t) => t.id = t._id)
+      console.log(tasks_data)
       var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: "dayGridMonth",
         height: 750,
@@ -85,14 +85,15 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             addBtn.addEventListener('click',async ()=>{
                 const res = await window.electronAPI.addTask(task)
-                if(res){
+                if(res.ok){
                     var getUpdateTasks = await window.electronAPI.getTasks()
+                    getUpdateTasks = getUpdateTasks.map((t) =>t.doc)
                     if (getUpdateTasks.length != null) {
                         sort_task = getUpdateTasks
-                        .sort((t1, t2) => new Date(t1.doc.start) - new Date(t2.doc.start))
-                        .filter((t) => t.doc.status == "undone");
+                        .sort((t1, t2) => new Date(t1.start) - new Date(t2.start))
+                        .filter((t) => t.status == "undone");
                         window.localStorage.setItem('undone_task', JSON.stringify(sort_task))
-                        sort_task = sort_task.filter((t) => calDay(t.doc.start) >= 0);
+                        sort_task = sort_task.filter((t) => calDay(t.start) >= 0);
                         window.localStorage.setItem('tasks',JSON.stringify(sort_task));
                     }
                 }
