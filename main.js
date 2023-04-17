@@ -107,7 +107,6 @@ ipcMain.handle("get-tasks", async () =>{
 } )
 
 ipcMain.handle("done-task", async (event, data) => {
-  const get_date = new Date()
   const doc_id = data;
   try {
     var doc = await db.get(doc_id);

@@ -1,6 +1,7 @@
 var sort_task = []
 var outOfDate = []
 var done_task = []
+
 const navbar = (page) =>{
   return `
   <a href="index.html" class="${page[0]}"><i class="bi bi-house-door" style="font-size: 26px; margin-right: 5px;"></i></a>
@@ -190,11 +191,13 @@ const fetchData = async () => {
     }
     console.log(sort_task)
     cardShow.innerHTML += returnCard(sort_task);
+    taskCount.innerText = sort_task.length
     doneCardShow.innerHTML += returnDoneCard(done_task);
+    doneTaskCount.innerText = done_task.length
   }
-  console.log(done_task)
-  console.log(outOfDate)
-  console.log(sort_task)
+  // console.log(done_task)
+  // console.log(outOfDate)
+  // console.log(sort_task)
   window.localStorage.setItem('tasks',JSON.stringify(sort_task));
 }
 

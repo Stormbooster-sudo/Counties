@@ -27,6 +27,16 @@
       }
     }
 
+    .text-count{
+      height: 45px; margin-bottom: 0.5em;
+      height: 45px; margin-bottom: 0.5em;
+    }
+    .text-count h1{
+      display: inline;
+      vertical-align: middle;
+      line-height: 42px;
+    }
+
     .circle {
       width: 8em;
       height: 8em;
@@ -133,10 +143,10 @@
   </div>
 
   <div class="main" style="margin-top: 1em;margin-left: 9em;margin-right: 0em;">
-    <h1>Task</h1>
+    <div class="text-count" ><h1>Task </h1><p style="display: inline;"><span class="badge rounded-pill bg-danger" style="font-size:larger;" id="task-count">12</span></p></div>
       <div class="auto-grid" id="card-show" style="margin: 0; margin-bottom: 3em;">
       </div> 
-    <h1>Done Task</h1>
+      <div class="text-count"><h1>Done Task </h1><p style="display: inline;"><span class="badge rounded-pill bg-success" style="font-size:larger;" id="done-task-count">12</span></p></div>
       <div class="auto-grid" id="done-card-show" style="margin: 0;">
       </div>
   </div>
@@ -192,8 +202,10 @@
     var cardShow = document.getElementById("card-show");
     var doneCardShow = document.getElementById("done-card-show")
     const add_btn = document.getElementById("add-btn");
-    const logout_btn = document.getElementById("logout-btn");
+    const logout_btn = document.getElementById("logout-btn")
     var headerTitle = document.getElementById("header-title")
+    const taskCount = document.getElementById('task-count')
+    const doneTaskCount = document.getElementById('done-task-count')
     var task = {title:"", detail:"", start: new Date(), status: 'undone', color: '#46AF5F'}
     // headerTitle.innerHTML = username
 
