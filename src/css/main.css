@@ -75,15 +75,17 @@ button.close {
 }
 
 .modal-header {
-  background-color: lightcoral;
-  color: #111;
+  /* background-color: lightcoral; */
+  background-color: #3c3c3c;
+  /* color: #111; */
+  color: white;
   -webkit-text-stroke-width: 1px;
   border-bottom: none;
 }
 
 .modal-title{
-  text-overflow: ellipsis;
-  overflow: hidden;
+  max-height: 45px;
+  font-size: 30px;
 }
 
 .modal-content {
@@ -92,6 +94,13 @@ button.close {
 
 .modal-body {
   font-size: 20px;
+}
+
+.modal-body h6{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  font-size:28px; 
+  margin-bottom:0.5em;
 }
 
 .modal-footer {

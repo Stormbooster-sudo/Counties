@@ -54,8 +54,14 @@
         background: rgba(0, 0, 0, 0.7);
         /* background: none; */
         border-radius: 2em;
-        /* max-height: 10em; */
+        /* max-width: 10em; */
         overflow-x: scroll;
+      }
+
+      .auto-grid-child{
+        --auto-grid-min-size: 6rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(var(--auto-grid-min-size), 1fr));
       }
       .card-body {
         padding-top: 0;
@@ -90,7 +96,7 @@
   </head>
   <body style="padding: 0">
     <div class="main">
-      <div class="d-flex justify-content-start" id="card-show" style="margin: 0;"></div>
+      <div class="d-flex" id="card-show" style="margin: 0;"></div>
     </div>
   </body>
     <script src="./js/index_child.js"></script>

@@ -4,8 +4,9 @@ var done_task = []
 
 const navbar = (page) =>{
   return `
-  <a href="index.html" class="${page[0]}"><i class="bi bi-house-door" style="font-size: 26px; margin-right: 5px;"></i></a>
-    <a href="calendar.html" class="${page[1]}"><i class="bi bi-calendar3" style="font-size: 23px; margin-right: 6px;margin-left: 2px;padding-top: 4px"></i></a>
+  <a href="index.html" class="${page[0]}"><i class="bi bi-house-door" style="font-size: 26px; margin-right: 1px;"></i></a>
+    <a href="calendar.html" class="${page[1]}"><i class="bi bi-calendar3" style="font-size: 23px; margin-right: 3px;margin-left: 3px;"></i></a>
+    <a href="index.html" class="${page[1]}"><i class="bi bi-gear" style="font-size: 26px; margin-right: 1px;"></i></a>  
     <a class="logout-btn" style="position: fixed;bottom: 0;text-align: center;width: 3.2em;" data-bs-toggle="modal" data-bs-target="#logoutAlert"><i class="bi bi-box-arrow-left" style="font-size: 23px; margin-right: 6px;margin-left: 2px;padding-top: 4px"></i></a>
   `
 }
@@ -86,15 +87,15 @@ const returnCard = (cards) => {
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color:${colorScale(perc)};" >
-        <h5 class="modal-title" id="exampleModalLongTitle">${
-          card.title
+        <h5 class="modal-title" id="exampleModalLongTitle">Due ${
+          card.start
         }</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p class="due-text">Due : ${card.start}</p>
+        <h6>${card.title}</h6>
         <p>"${card.detail}"</p>
       </div>
       <div class="modal-footer">
@@ -145,15 +146,15 @@ const returnDoneCard = (cards) => {
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: gray;" >
-        <h5 class="modal-title" id="exampleModalLongTitle">${card.title}</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Due ${card.start}</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p>"${card.detail}"</p>
-        <p class="due-text">Due : ${card.start}</p>
         <p class="due-text">Done : ${card.done}</p>
+        <h6>${card.title}</h6>
+        <p>"${card.detail}"</p>
       </div>
       <div class="modal-footer">
         <button id="done-btn" type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width: 100%;" onclick=\"deleteTask(\'${card._id}\')\" >Delete</button>
