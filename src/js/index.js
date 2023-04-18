@@ -23,7 +23,9 @@ const deleteTask = async (id) => {
   console.log(res);
   window.location.reload();
 };
-
+const quitWindow = () => {
+  window.electronAPI.closeWindow()
+}
 const calDay = (d) => {
   var date1 = new Date(d);
   var date2 = new Date();
@@ -191,10 +193,6 @@ const fetchData = async () => {
       );
     }
     console.log(sort_task)
-    cardShow.innerHTML += returnCard(sort_task);
-    taskCount.innerText = sort_task.length
-    doneCardShow.innerHTML += returnDoneCard(done_task);
-    doneTaskCount.innerText = done_task.length
   }
   // console.log(done_task)
   // console.log(outOfDate)
@@ -204,7 +202,11 @@ const fetchData = async () => {
 
 window.onload = async function () {
   sidenav.innerHTML += navbar(['active',''])
-  fetchData()
+  await fetchData()
+  cardShow.innerHTML += returnCard(sort_task);
+  taskCount.innerText = sort_task.length
+  doneCardShow.innerHTML += returnDoneCard(done_task);
+  doneTaskCount.innerText = done_task.length
   // console.log(username)
 };
 

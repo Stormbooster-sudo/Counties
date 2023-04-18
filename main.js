@@ -93,6 +93,10 @@ app.whenReady().then(() => {
   })
 })
 
+ipcMain.handle("close-win", ()=>{
+  app.quit()
+})
+
 ipcMain.handle("add-task", async (event, data) =>{
   const res = await db.post(data)
   console.log(res)
