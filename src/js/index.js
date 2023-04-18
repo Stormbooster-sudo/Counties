@@ -17,12 +17,22 @@ const markAsDone = async (id) => {
   console.log(res);
   window.location.reload();
 };
+
 const deleteTask = async (id) => {
   console.log(id);
   const res = await window.electronAPI.deleteTask(id);
   console.log(res);
   window.location.reload();
 };
+
+const clearDoneTasks = async () =>{
+  const res = await window.electronAPI.deleteBatchTasks(done_task)
+  if(res){
+    window.location.reload()
+  }
+  console.log(res)
+}
+
 const quitWindow = () => {
   window.electronAPI.closeWindow()
 }
@@ -101,7 +111,7 @@ const returnCard = (cards) => {
         <p>"${card.detail}"</p>
       </div>
       <div class="modal-footer">
-        <button id="done-btn" type="button" class="btn btn-primary"  style="width: 100%;" onclick=\"MaskAsDone(\'${
+        <button id="done-btn" type="button" class="btn btn-primary"  style="width: 100%;" onclick=\"markAsDone(\'${
           card._id
         }\')\" >Mask as Done</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width: 100%;">Close</button>

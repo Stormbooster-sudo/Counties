@@ -5,9 +5,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   addTask: (payload) => ipcRenderer.invoke('add-task', payload),
   doneTask: (payload) => ipcRenderer.invoke('done-task', payload),
   deleteTask: (payload) => ipcRenderer.invoke('delete-task', payload),
+  deleteBatchTasks: (payload) => ipcRenderer.invoke('delete-batch-tasks', payload),
   getTasks: () => ipcRenderer.invoke('get-tasks'),
   updateDateTask: (payload) => ipcRenderer.invoke('update-date-task', payload),
-  closeWindow: ()=> ipcRenderer.invoke('close-win')
+  closeWindow: ()=> ipcRenderer.invoke('close-win'),
 })
 
 // All the Node.js APIs are available in the preload process.

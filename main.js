@@ -140,6 +140,17 @@ ipcMain.handle("delete-task", async (event, data) => {
   return res
 })
 
+ipcMain.handle('delete-batch-tasks', async (event, data)=>{
+  var docs = data.map((t) => {return{_id: t._id, _rev: t._rev, _deleted: true}})
+  console.log(docs)
+  try {
+    var res = await db.bulkDocs(docs);
+  } catch (err) {
+    console.log(err);
+  }
+  return res
+})
+
 ipcMain.handle("update-date-task", async (event, data) => {
   console.log(data)
   const doc_id = data.id

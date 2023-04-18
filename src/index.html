@@ -141,13 +141,33 @@
     </div>
   </div>
 
+  <div class="modal fade" id="clearAllAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Clear All Done Tasks?</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to delete all done tasks?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          <button id="logout-btn" type="button" class="btn btn-primary" onclick="clearDoneTasks()" >Sure</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="main" style="margin-top: 1em;margin-left: 9em;margin-right: 0em;">
     <div class="text-count" ><h1>Task </h1><p style="display: inline;"><span class="badge rounded-pill bg-danger" style="font-size:larger;" id="task-count">12</span></p></div>
       <div class="auto-grid" id="card-show" style="margin: 0; margin-bottom: 3em;">
       </div> 
       <div class="text-count">
         <h1>Done Task </h1><p style="display: inline;"><span class="badge rounded-pill bg-success" style="font-size:larger;" id="done-task-count">12</span></p>
-        <div class="btn btn-outline-secondary" style="display: inline;position: relative;float: right;margin-right: 2em;">Clear All</div>
+        <div class="btn btn-outline-secondary" style="display: inline;position: relative;float: right;margin-right: 2em;" data-bs-toggle="modal" data-bs-target="#clearAllAlert">Clear All</div>
       </div>
       <div class="auto-grid" id="done-card-show" style="margin: 0;">
       </div>
