@@ -93,6 +93,7 @@ document.addEventListener("DOMContentLoaded", function () {
           right: "dayGridMonth",
         },
         editable: true,
+        dayMaxEventRows: true,
         eventDrop: function(info){
           const data = {id: info.event.id, start: info.event.startStr}
           alertModal.show()
