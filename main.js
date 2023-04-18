@@ -137,7 +137,7 @@ ipcMain.handle("delete-task", async (event, data) => {
   } catch (err) {
     console.log(err);
   }
-  return res.ok
+  return res
 })
 
 ipcMain.handle("update-date-task", async (event, data) => {
@@ -159,7 +159,7 @@ ipcMain.handle("update-date-task", async (event, data) => {
     console.log(err);
   }
   console.log(res)
-  return res.ok
+  return res
 })
 
 app.on('window-all-closed', () => {

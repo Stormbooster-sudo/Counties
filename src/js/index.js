@@ -11,7 +11,7 @@ const navbar = (page) =>{
   `
 }
 
-const MaskAsDone = async (id) => {
+const markAsDone = async (id) => {
   console.log(id);
   const res = await window.electronAPI.doneTask(id);
   console.log(res);

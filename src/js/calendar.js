@@ -2,6 +2,7 @@ const alertModal = new bootstrap.Modal('#alertModal')
 const confirmButton = document.getElementById("confirm-change")
 const cancelButton = document.getElementById("cancel-change")
 const selectedDate = document.getElementById("add-calendar-modal")
+const selectedTask = document.getElementById("detail-calendar-modal")
 const sidenav = document.getElementById("sidenavbar")
 var task = {title:"", detail:"", start: new Date(), status: 'undone', color: '#46AF5F'}
 
@@ -48,6 +49,33 @@ const addTaskCalendarModal = (date) =>{
   </div>`
 }
 
+const taskDetailCalendarModal = (task) =>{
+  return `
+  <div class="modal fade" id="taskDetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color:${task.color};" >
+        <h5 class="modal-title" id="exampleModalLongTitle">Due ${
+          task.start
+        }</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6>${task.title}</h6>
+        <p>"${task.detail}"</p>
+      </div>
+      <div class="modal-footer">
+        <button id="done-btn" type="button" class="btn btn-primary"  style="width: 100%;" >Mask as Done</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width: 100%;">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+  `
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     sidenav.innerHTML += navbar(['','active'])
     var calendarEl = document.getElementById("calendar");
@@ -70,6 +98,11 @@ document.addEventListener("DOMContentLoaded", function () {
           alertModal.show()
           confirmButton.addEventListener('click', async function(event) {
             const res = await window.electronAPI.updateDateTask(data)
+            if(res.ok){
+              await fetchData()
+              tasks_data = JSON.parse(await window.localStorage.getItem('undone_task'))
+              tasks_data.map((t) => t.id = t._id)
+            }
             alertModal.hide()
           })
           cancelButton.addEventListener('click', event => {
@@ -90,22 +123,29 @@ document.addEventListener("DOMContentLoaded", function () {
             addBtn.addEventListener('click',async ()=>{
                 const res = await window.electronAPI.addTask(task)
                 if(res.ok){
-                    var getUpdateTasks = await window.electronAPI.getTasks()
-                    getUpdateTasks = getUpdateTasks.map((t) =>t.doc)
-                    if (getUpdateTasks.length != null) {
-                        sort_task = getUpdateTasks
-                        .sort((t1, t2) => new Date(t1.start) - new Date(t2.start))
-                        .filter((t) => t.status == "undone");
-                        window.localStorage.setItem('undone_task', JSON.stringify(sort_task))
-                        sort_task = sort_task.filter((t) => calDay(t.start) >= 0);
-                        window.localStorage.setItem('tasks',JSON.stringify(sort_task));
-                    }
+                    await fetchData()
                 }
                 window.location.reload()
             })
           },
         eventClick:function(info){
-          console.log(info.event)
+          var clickedTask = tasks_data.filter((t)=> t.id == info.event.id)
+          console.log(clickedTask[0])
+            selectedTask.innerHTML += taskDetailCalendarModal(clickedTask[0])
+            var taskDetailModal = new bootstrap.Modal("#taskDetailModal")
+            var taskDetailModalEl = document.getElementById("taskDetailModal")
+            var doneTaskBtn = document.getElementById("done-btn")
+            taskDetailModal.show()
+            // console.log('clicked ' + info.dateStr); 
+            taskDetailModalEl.addEventListener('hidden.bs.modal', async function(event) {
+                selectedTask.innerHTML = ""
+            })
+            doneTaskBtn.addEventListener('click', async ()=>{
+              // console.log(clickedTask)
+              await markAsDone(clickedTask[0].id)
+              tasks_data = tasks_data.filter((t)=> t.id != clickedTask[0].id)
+              window.localStorage.setItem("undone_task", JSON.stringify(tasks_data))
+            })
         },
         events: tasks_data
       });
