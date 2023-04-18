@@ -1,3 +1,12 @@
+var sidenav = document.getElementById("sidenavbar")
+var cardShow = document.getElementById("card-show");
+var doneCardShow = document.getElementById("done-card-show")
+const add_btn = document.getElementById("add-btn");
+const logout_btn = document.getElementById("logout-btn")
+var headerTitle = document.getElementById("header-title")
+const taskCount = document.getElementById('task-count')
+const doneTaskCount = document.getElementById('done-task-count')
+var task = {title:"", detail:"", start: new Date(), status: 'undone', color: '#46AF5F'}
 var sort_task = []
 var outOfDate = []
 var done_task = []
@@ -11,18 +20,28 @@ const navbar = (page) =>{
   `
 }
 
+const addTask = async () =>{
+  console.log(task)
+  const res = await window.electronAPI.addTask(task)
+  if(res){
+    window.location.reload()
+  }
+}
+
 const markAsDone = async (id) => {
   console.log(id);
   const res = await window.electronAPI.doneTask(id);
-  console.log(res);
-  window.location.reload();
+  if(res){
+    window.location.reload()
+  }
 };
 
 const deleteTask = async (id) => {
   console.log(id);
   const res = await window.electronAPI.deleteTask(id);
-  console.log(res);
-  window.location.reload();
+  if(res){
+    window.location.reload()
+  }
 };
 
 const clearDoneTasks = async () =>{

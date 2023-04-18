@@ -100,7 +100,7 @@ ipcMain.handle("close-win", ()=>{
 ipcMain.handle("add-task", async (event, data) =>{
   const res = await db.post(data)
   console.log(res)
-  return res;
+  return res.ok
 } )
 
 ipcMain.handle("get-tasks", async () =>{
@@ -137,7 +137,7 @@ ipcMain.handle("delete-task", async (event, data) => {
   } catch (err) {
     console.log(err);
   }
-  return res
+  return res.ok
 })
 
 ipcMain.handle('delete-batch-tasks', async (event, data)=>{

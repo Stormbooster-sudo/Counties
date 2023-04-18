@@ -5,17 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <script defer src="js/bootstrap.bundle.min.js"></script>
-  <script src="./js/index.js"></script>
+  <script defer src="./js/index.js"></script>
   <link rel="stylesheet" href="css/main.css">
   <link
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
 />
   <style>
-    .main {
-      margin-left: 200px;
-      padding-right: 4em;
-    }
 
     @media screen and (max-height: 450px) {
       .sidenav {
@@ -161,7 +157,7 @@
     </div>
   </div>
 
-  <div class="main" style="margin-top: 1em;margin-left: 9em;margin-right: 0em;">
+  <div class="main">
     <div class="text-count" ><h1>Task </h1><p style="display: inline;"><span class="badge rounded-pill bg-danger" style="font-size:larger;" id="task-count">12</span></p></div>
       <div class="auto-grid" id="card-show" style="margin: 0; margin-bottom: 3em;">
       </div> 
@@ -188,19 +184,19 @@
           <form>
             <div class="form-group">
               <label for="taskTitle">Title</label>
-              <input id="taskTitle" class="form-control" type="text" rows="1"  placeholder="Task Title" onchange="handleTitle(this.value)">
+              <input id="taskTitle" class="form-control" type="text" rows="1"  placeholder="Task Title" onchange="task.title = this.value">
             </div>
             <div class="form-group" >
               <label for="startDate">Due Date</label>
-              <input id="startDate" class="form-control" rows="2"  type="date" onchange="handleStartDate(this.value)"/>
+              <input id="startDate" class="form-control" rows="2"  type="date" onchange="task.start = this.value"/>
             </div>
             <div class="form-group">
               <label for="taskDetail">Detail</label>
-              <textarea class="form-control" id="taskDetail" rows="3" placeholder="Task Detail" onchange="handleTaskDetail(this.value)"></textarea>
+              <textarea class="form-control" id="taskDetail" rows="3" placeholder="Task Detail" onchange="task.detail = this.value"></textarea>
             </div>
             <div class="form-group">
               <label for="taskCalendarColor">Color (Calendar)</label>
-              <input id="taskCalendarColor" type="color" list="presets" rows="4" value="#46AF5F" onchange="handleColor(this.value)">
+              <input id="taskCalendarColor" type="color" list="presets" rows="4" value="#46AF5F" onchange="task.color = this.value">
                 <datalist id="presets">
                   <option value="#46AF5F">Medium Sea Green</option>
                   <option value="#F6AF41">Yellow</option>
@@ -213,22 +209,13 @@
           </form>
         </div>
         <div class="modal-footer" >
-          <button id="add-btn" type="button" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;" data-bs-dismiss="modal" >Add</button>
+          <button id="add-btn" type="button" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;" data-bs-dismiss="modal" onclick="addTask()" >Add</button>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    var sidenav = document.getElementById("sidenavbar")
-    var cardShow = document.getElementById("card-show");
-    var doneCardShow = document.getElementById("done-card-show")
-    const add_btn = document.getElementById("add-btn");
-    const logout_btn = document.getElementById("logout-btn")
-    var headerTitle = document.getElementById("header-title")
-    const taskCount = document.getElementById('task-count')
-    const doneTaskCount = document.getElementById('done-task-count')
-    var task = {title:"", detail:"", start: new Date(), status: 'undone', color: '#46AF5F'}
     // headerTitle.innerHTML = username
 
     const handleTitle = (value) =>{
@@ -247,12 +234,6 @@
       task.color = value
       console.log(task)
     }
-
-    add_btn.addEventListener('click',async ()=>{
-        console.log(task)
-        const res = await window.electronAPI.addTask(task)
-        window.location.reload()
-    })
   </script>
 </body>
 

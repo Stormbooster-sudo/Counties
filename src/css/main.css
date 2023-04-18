@@ -26,6 +26,12 @@ body::-webkit-scrollbar-thumb {
   min-height: 32px;
 }
 
+.main{
+  margin-top: 1em; 
+  margin-left: 9em; 
+  margin-right: 0;
+}
+
 .sidenav {
   height: 100%;
   width: 4em;
