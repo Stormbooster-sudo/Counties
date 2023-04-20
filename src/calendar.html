@@ -31,10 +31,6 @@
         height: 50em;
         margin: 0;
       }
-      a {
-        color: #f1f1f1;
-        text-decoration: none;
-      }
       .fc-daygrid-day-frame:hover {
         background-color: #dfdfdf;
       }
@@ -43,8 +39,8 @@
       }
     </style>
   </head>
-  <body>
-    <div class="sidenav" id="sidenavbar">
+  <body class="dark-mode">
+    <div class="sidenav dark-mode" id="sidenavbar">
   </div>
     <div class="modal fade" id="logoutAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog  modal-dialog-centered" role="document">
@@ -66,16 +62,16 @@
       </div>
     </div>
   
-    <div class="modal fade" tabindex="-1" id="alertModal">
+    <div class="modal" tabindex="-1" id="alertModal">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header dark-mode">
             <h5 class="modal-title">Are you sure?</h5>
           </div>
-          <div class="modal-body">
+          <div class="modal-body dark-mode">
             <p>Are you sure to change task due date?</p>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer dark-mode">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancel-change">Cancel</button>
             <button type="button" class="btn btn-primary" id="confirm-change">Confirm</button>
           </div>
@@ -86,7 +82,7 @@
     <div id="add-calendar-modal"></div>
     <div id="detail-calendar-modal"></div>
 
-    <div class="main" style="margin-right: 6em;">
+    <div class="main" style="margin-right: 2em;">
       <div id="calendar"></div>
     </div>
     

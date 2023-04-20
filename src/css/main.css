@@ -29,6 +29,7 @@ body::-webkit-scrollbar-thumb {
 .main{
   margin-top: 1em; 
   margin-left: 9em; 
+  padding-right: 3em;
   margin-right: 0;
 }
 
@@ -113,6 +114,7 @@ button.close {
   border-top: none;
 }
 
+
 .form-group {
   margin-bottom: 1em;
 }
@@ -148,4 +150,40 @@ button.close {
   0% {
     stroke-dasharray: 0 100;
   }
+}
+
+a {
+  color: #f1f1f1;
+  /* color: rgb(53, 53, 53); */
+  text-decoration: none;
+}
+
+.light-mode{
+  background-color: rgb(238, 237, 237);
+  color: #111;
+}
+.percentage.light-mode{
+  font-family: "Custom Font";
+  fill: #242323;
+  font-size: 0.5em;
+  text-anchor: middle;
+}
+.circle-bg.light-mode{
+  fill: none;
+  stroke: #dddbdb;
+  stroke-width: 3.8;
+}
+
+.sidenav.light-mode{
+  background-color: #cdcdcd;
+}
+
+.sidenav.light-mode a {
+  color: #303030;
+}
+
+.sidenav.light-mode a:hover {
+  background-color: #969696;
+  color: #f1f1f1;
+  border-radius: 15px;
 }

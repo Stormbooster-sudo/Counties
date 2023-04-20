@@ -7,16 +7,16 @@ var task = {title:"", detail:"", start: new Date(), status: 'undone', color: '#4
 
 const addTaskCalendarModal = (date) =>{
     console.log(date)
-    return `<div class="modal fade" id="addTaskModalCalendar" tabindex="-1">
+    return `<div class="modal" id="addTaskModalCalendar" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header ${mainStyle}">
           <h5 class="modal-title">Add Task on ${date}</h5>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body ${mainStyle}">
           <form>
             <div class="form-group">
               <label for="taskTitle">Title</label>
@@ -40,7 +40,7 @@ const addTaskCalendarModal = (date) =>{
             </div>
           </form>
         </div>
-        <div class="modal-footer" >
+        <div class="modal-footer ${mainStyle}" >
           <button id="add-btn" type="button" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;" data-bs-dismiss="modal" >Add</button>
         </div>
       </div>
@@ -61,11 +61,11 @@ const taskDetailCalendarModal = (task) =>{
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body ${mainStyle}">
         <h6>${task.title}</h6>
         <p>"${task.detail}"</p>
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer ${mainStyle}">
         <button id="done-btn" type="button" class="btn btn-primary"  style="width: 100%;" >Mask as Done</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width: 100%;">Close</button>
       </div>
@@ -151,5 +151,13 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       calendar.render();
+      if(window.localStorage.getItem("light-mode") == 'true'){
+        var aTag = document.getElementsByTagName("a")
+        for(var i = 0; i < aTag.length; i++){
+          aTag[i].style.color = "black"
+        }
+        mainStyle = "light-mode"
+        lightMode()
+      }
     };
   });

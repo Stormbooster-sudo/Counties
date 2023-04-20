@@ -24,7 +24,8 @@
     }
 
     .text-count{
-      height: 45px; margin-bottom: 0.5em;
+      height: 45px; 
+      margin-bottom: 0.5em;
     }
     .text-count h1{
       display: inline;
@@ -76,6 +77,14 @@
       max-height: 6em;
       overflow-y: hidden;
     }
+
+    .card.light-mode{
+      background: transparent;
+    }
+    .card.light-mode:hover{
+      background-color: #bdbdbdde;
+    }
+
     /* .fill-div{
       height: 100%;
       width: 100%;
@@ -98,7 +107,7 @@
     }
     .modal-content{
     background-color: #3c3c3c;
-  }
+    }
   .modal-body{
     font-size: 20px;
   }
@@ -114,7 +123,7 @@
   </script>
 </head>
 
-<body style="padding: 0;">
+<body>
   <div class="sidenav" id="sidenavbar">
   </div>
   <div class="modal fade" id="logoutAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -137,9 +146,9 @@
     </div>
   </div>
 
-  <div class="modal fade" id="clearAllAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal" id="clearAllAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog  modal-dialog-centered" role="document">
-      <div class="modal-content">
+      <div class="modal-content" >
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Clear All Done Tasks?</h5>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
@@ -151,7 +160,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-          <button id="logout-btn" type="button" class="btn btn-primary" onclick="clearDoneTasks()" >Sure</button>
+          <button id="logout-btn" type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="clearDoneTasks()" >Sure</button>
         </div>
       </div>
     </div>
@@ -171,7 +180,7 @@
 
   <div class="float-button"  data-bs-toggle="modal" data-bs-target="#addTaskModal" ><p style="font-size: 3.5em;">+</p></div>
   </div>
-  <div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
