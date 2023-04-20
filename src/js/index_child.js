@@ -1,4 +1,5 @@
 const cardShow = document.getElementById("card-show");
+var widgetStyle = ""
 const calDay = (d) => {
   var date1 = new Date(d);
   var date2 = new Date();
@@ -27,10 +28,10 @@ const returnCard = (cards) => {
       perc = perc > 100 ? 99 : perc;
       console.log(perc);
       return `    
-  <div class="card" style="text-align: center;;background: transparent;border: none;">
+  <div class="card ${widgetStyle}" style="text-align: center;;background: transparent;border: none;">
 <div class="single-chart">
   <svg viewBox="0 0 36 36" class="circular-chart" >
-    <path class="circle-bg"
+    <path class="circle-bg ${widgetStyle}"
       d="M18 2.0845
         a 15.9155 15.9155 0 0 1 0 31.831
         a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -41,8 +42,8 @@ const returnCard = (cards) => {
         a 15.9155 15.9155 0 0 1 0 31.831
         a 15.9155 15.9155 0 0 1 0 -31.831"
     />
-    ${calDay(card.start) == 0 ? `<text x="18" y="20" class="percentage" style="font-size:0.5em;">Today</text>` :`<text x="18" y="19" class="percentage" style="font-size:0.75em;">${calDay(card.start)}</text>`}
-    <text x="18" y="24" class="percentage" style="font-size: 0.25em;">${calDay(card.start) == 0 ? "" : "Days"}</text>
+    ${calDay(card.start) == 0 ? `<text x="18" y="20" class="percentage ${widgetStyle}" style="font-size:0.5em;">Today</text>` :`<text x="18" y="19" class="percentage ${widgetStyle}" style="font-size:0.75em;">${calDay(card.start)}</text>`}
+    <text x="18" y="24" class="percentage ${widgetStyle}" style="font-size: 0.25em;">${calDay(card.start) == 0 ? "" : "Days"}</text>
   </svg>
 </div>
 <div class="card-body">
@@ -53,9 +54,17 @@ const returnCard = (cards) => {
     })
     .join(" ");
 };
-setInterval(function() {window.location.reload()}, 3600000)
+
 window.onload = async function () {
   const tasks = JSON.parse(await window.localStorage.getItem('tasks'))
-  console.log(tasks)
+  var mainWidget = document.getElementById('widget-main')
+  mainWidget.style.background = `rgba(0, 0, 0, 0.7)`
+  // console.log(tasks)
+  if(window.localStorage.getItem("light-mode-widget") == 'true'){
+    mainWidget.style.background = `rgba(225, 225, 225, 0.6)`
+    widgetStyle = "light-mode"
+  }
   cardShow.innerHTML = returnCard(tasks);
 };
+
+setInterval(function() {window.location.reload()}, 3600000)
