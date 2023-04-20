@@ -58,10 +58,12 @@ const returnCard = (cards) => {
 window.onload = async function () {
   const tasks = JSON.parse(await window.localStorage.getItem('tasks'))
   var mainWidget = document.getElementById('widget-main')
-  mainWidget.style.background = `rgba(0, 0, 0, 0.7)`
+  var widgetTransparent = window.localStorage.getItem('widget-transparent')
+  console.log(widgetTransparent)
+  mainWidget.style.background = `rgba(0, 0, 0, ${widgetTransparent})`
   // console.log(tasks)
   if(window.localStorage.getItem("light-mode-widget") == 'true'){
-    mainWidget.style.background = `rgba(225, 225, 225, 0.6)`
+    mainWidget.style.background = `rgba(225, 225, 225, ${widgetTransparent})`
     widgetStyle = "light-mode"
   }
   cardShow.innerHTML = returnCard(tasks);
