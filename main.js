@@ -2,12 +2,11 @@ const { app, BrowserWindow, Tray, Menu, ipcMain } = require('electron')
 const path = require('path')
 const Store = require('electron-store');
 const AutoLaunch = require('auto-launch')
-const moment = require('moment');
 const PounchDB = require('pouchdb')
 const url = ""
 
 const store = new Store();
-const db = new PounchDB('eventDB')
+const db = new PounchDB(path.join(__dirname.replace('\\resources\\app.asar',''),'eventDB'))
 const createWindow = async () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -38,6 +37,10 @@ const createWindow = async () => {
   await mainWindow.loadFile('src/index.html')
   mainWindow.webContents.openDevTools()
   mainWindow.on('minimize',async function(event){
+    event.preventDefault();
+    if (process.platform === 'darwin') {
+      app.dock.hide();
+    }
     event.preventDefault();
     mainWindow.hide();
     if(store.has("child-pos")&&store.has("child-size")){
@@ -78,13 +81,16 @@ const createWindow = async () => {
 
 app.whenReady().then(() => {
   createWindow()
+
   var autoLaunch = new AutoLaunch({
     name: 'Counties',
     path: app.getPath('exe'),
   });
-  autoLaunch.isEnabled().then((isEnabled) => {
-    if (!isEnabled) autoLaunch.enable();
-  });
+
+  if(!store.has("auto-launch")){
+    store.set("auto-launch", false)
+  }
+  store.get('auto-launch') ? autoLaunch.enable() : autoLaunch.disable()
 
   app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
@@ -104,10 +110,10 @@ ipcMain.handle("add-task", async (event, data) =>{
 } )
 
 ipcMain.handle("get-tasks", async () =>{
-  const res = await db.allDocs({
-    include_docs: true
-  });
-  return res.rows
+    var res = await db.allDocs({
+      include_docs: true
+    });
+    return res.rows
 } )
 
 ipcMain.handle("done-task", async (event, data) => {
@@ -171,6 +177,10 @@ ipcMain.handle("update-date-task", async (event, data) => {
   }
   console.log(res)
   return res
+})
+
+ipcMain.handle('set-auto-launch', async (event, data) => {
+  store.set('auto-launch', data)
 })
 
 app.on('window-all-closed', () => {
