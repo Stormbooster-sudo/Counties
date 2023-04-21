@@ -7,7 +7,7 @@ var task = {title:"", detail:"", start: new Date(), status: 'undone', color: '#4
 
 const addTaskCalendarModal = (date) =>{
     console.log(date)
-    return `<div class="modal" id="addTaskModalCalendar" tabindex="-1">
+    return `<div class="modal fade zoom-in" id="addTaskModalCalendar" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header ${mainStyle}">
@@ -50,7 +50,7 @@ const addTaskCalendarModal = (date) =>{
 
 const taskDetailCalendarModal = (task) =>{
   return `
-  <div class="modal fade" id="taskDetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal fade zoom-in" id="taskDetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color:${task.color};" >

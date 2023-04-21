@@ -24,7 +24,7 @@ const navbar = (page) =>{
 const addTask = async () =>{
   console.log(task)
   const res = await window.electronAPI.addTask(task)
-  if(res){
+  if(res.ok){
     await fetchData()
   }
 }
@@ -32,7 +32,7 @@ const addTask = async () =>{
 const markAsDone = async (id) => {
   console.log(id);
   const res = await window.electronAPI.doneTask(id);
-  if(res){
+  if(res.ok){
     await fetchData()
   }
 };
@@ -40,17 +40,17 @@ const markAsDone = async (id) => {
 const deleteTask = async (id) => {
   console.log(id);
   const res = await window.electronAPI.deleteTask(id);
-  if(res){
+  if(res.ok){
     await fetchData()
   }
 };
 
 const clearDoneTasks = async () =>{
   const res = await window.electronAPI.deleteBatchTasks(done_task)
-  if(res){
+  if(res.ok){
     await fetchData()
   }
-  console.log(res)
+  console.log(res.ok)
 }
 
 const quitWindow = () => {
@@ -113,7 +113,7 @@ const returnCard = (cards) => {
           <p class="card-text">${card.detail}</p>
         </div>
   </div>
-  <div class="modal fade" id="openCard${
+  <div class="modal fade zoom-in" id="openCard${
     card._id
   }" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -174,7 +174,7 @@ const returnDoneCard = (cards) => {
           <p class="card-text">${card.detail}</p>
         </div>
   </div>
-  <div class="modal fade" id="openDoneCard${card._id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal fade zoom-in" id="openDoneCard${card._id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: gray;" >
@@ -216,7 +216,7 @@ const lightMode = () =>{
 const fetchData = async () => {
   var tasks = await window.electronAPI.getTasks()
   tasks = tasks.map((t) =>t.doc)
-  console.log(tasks)
+  console.log('reflesh')
   if (tasks.length != null) {
     sort_task = tasks
       .sort((t1, t2) => new Date(t1.start) - new Date(t2.start))
@@ -231,7 +231,7 @@ const fetchData = async () => {
     if (outOfDate.length) {
       // console.log(outOfDate.length)
       outOfDate.map(
-        async (task) => await window.electronAPI.deleteTask(task.id)
+        async (task) => await window.electronAPI.deleteTask(task._id)
       );
     }
     console.log(sort_task)
@@ -255,4 +255,4 @@ window.onload = async function () {
 };
 
 
-setInterval(function() {window.location.reload()}, 3600000)
+setInterval(fetchData, 600000)

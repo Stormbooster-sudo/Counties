@@ -114,6 +114,27 @@ button.close {
   border-top: none;
 }
 
+.modal.fade .modal-dialog{
+  -webkit-transform: translate(0,0);
+  transform: translate(0,0);
+}
+.zoom-in {
+  transform: scale(0)!important;
+  opacity: 0;
+  -webkit-transition: 0.1s all 0s;
+  -moz-transition: 0.1s all 0s;
+  -ms-transition: 0.1s all 0s;
+  -o-transition: 0.1s all 0s;
+  transition: 0.1s all 0s;
+  display: block !important;
+}
+
+.zoom-in.show {
+  opacity: 1;
+  transform: scale(1)!important;
+  transform:none;
+}
+
 
 .form-group {
   margin-bottom: 1em;
@@ -143,7 +164,7 @@ button.close {
   fill: none;
   stroke-width: 2.8;
   stroke-linecap: round;
-  animation: progress 1s ease-out forwards;
+  /* animation: progress 1s ease-out forwards; */
 }
 
 @keyframes progress {
@@ -187,3 +208,4 @@ a {
   color: #f1f1f1;
   border-radius: 15px;
 }
+
