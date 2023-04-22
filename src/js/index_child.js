@@ -1,11 +1,11 @@
+import {calDay} from './index.js'
 const cardShow = document.getElementById("card-show");
 var widgetStyle = ""
-const calDay = (d) => {
-  var date1 = new Date(d);
+const calDay = (d, h, m) => {
+  var date1 = new Date(d + ` ${h}:${m}:00`);
   var date2 = new Date();
   var difDate = date1.getTime() - date2.getTime();
-  var days = Math.round(difDate / (1000 * 3600 * 24));
-  return days;
+  return Math.round(difDate / (1000 * 60));
 };
 
 const colorScale = (perc) => {
@@ -24,9 +24,11 @@ const colorScale = (perc) => {
 const returnCard = (cards) => {
   return cards
     .map((card) => {
-      var perc = (calDay(card.start) / 30) * 100;
+      var minute = calDay(card.start, card.time.H, card.time.M)
+      var hour = minute / 60
+      var day = hour / 24
+      var perc = (day/ 30) * 100;
       perc = perc > 100 ? 99 : perc;
-      console.log(perc);
       return `    
   <div class="card ${widgetStyle}" style="text-align: center;;background: transparent;border: none;">
 <div class="single-chart">
@@ -42,8 +44,8 @@ const returnCard = (cards) => {
         a 15.9155 15.9155 0 0 1 0 31.831
         a 15.9155 15.9155 0 0 1 0 -31.831"
     />
-    ${calDay(card.start) == 0 ? `<text x="18" y="20" class="percentage ${widgetStyle}" style="font-size:0.5em;">Today</text>` :`<text x="18" y="19" class="percentage ${widgetStyle}" style="font-size:0.75em;">${calDay(card.start)}</text>`}
-    <text x="18" y="24" class="percentage ${widgetStyle}" style="font-size: 0.25em;">${calDay(card.start) == 0 ? "" : "Days"}</text>
+    <text x="18" y="21" class="percentage ${widgetStyle}" style="font-size:0.8em;">${day > 1 ? Math.ceil(day) : hour > 1 ? Math.ceil(hour) : minute}</text>
+    <text x="18" y="25" class="percentage ${widgetStyle}" style="font-size: 0.3em;">${day > 1 ? "Days" : hour > 1 ? "Hours" : "Minutes"}</text>
   </svg>
 </div>
 <div class="card-body">
@@ -55,18 +57,19 @@ const returnCard = (cards) => {
     .join(" ");
 };
 
+const displayCard = () => {
+  cardShow.innerHTML = returnCard(JSON.parse(window.localStorage.getItem('tasks')));
+}
+
 window.onload = async function () {
-  const tasks = JSON.parse(await window.localStorage.getItem('tasks'))
   var mainWidget = document.getElementById('widget-main')
   var widgetTransparent = window.localStorage.getItem('widget-transparent')
-  console.log(widgetTransparent)
   mainWidget.style.background = `rgba(0, 0, 0, ${widgetTransparent})`
-  // console.log(tasks)
   if(window.localStorage.getItem("light-mode-widget") == 'true'){
     mainWidget.style.background = `rgba(225, 225, 225, ${widgetTransparent})`
     widgetStyle = "light-mode"
   }
-  cardShow.innerHTML = returnCard(tasks);
+  displayCard()
 };
 
-setInterval(function() {window.location.reload()}, 3600000)
+setInterval(displayCard, 60000)

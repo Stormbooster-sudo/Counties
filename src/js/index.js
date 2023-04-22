@@ -7,7 +7,7 @@ var headerTitle = document.getElementById("header-title")
 const taskCount = document.getElementById('task-count')
 const doneTaskCount = document.getElementById('done-task-count')
 var mainStyle = ""
-var task = {title:"", detail:"", start: new Date(), status: 'undone', color: '#46AF5F'}
+var task = {title:"", detail:"", start: new Date(), time:{H: "00", M: "00"}, status: 'undone', color: '#46AF5F'}
 var sort_task = []
 var outOfDate = []
 var done_task = []
@@ -21,8 +21,36 @@ const navbar = (page) =>{
   `
 }
 
+const add24HourTimePicker = () =>{
+  var hourSelect =  document.getElementById('hour-select')
+  var minuteSelect = document.getElementById('minute-select')
+  for (var i = 0; i<24; i++){
+      var opt = document.createElement('option');
+      if(i < 10){
+        opt.value = '0' + i;
+        opt.innerHTML = '0' + i;
+      }
+      else{
+        opt.value = i;
+        opt.innerHTML = i;
+      }
+      hourSelect.appendChild(opt);
+  }
+  for (var i = 0; i<12; i++){
+      var opt = document.createElement('option');
+      if(i * 5 < 10){
+        opt.value = '0' + (i * 5);
+        opt.innerHTML = '0' + (i * 5);
+      }
+      else{
+        opt.value = (i * 5);
+        opt.innerHTML = (i * 5);
+      }
+      minuteSelect.appendChild(opt);
+  }
+}
+
 const addTask = async () =>{
-  console.log(task)
   const res = await window.electronAPI.addTask(task)
   if(res.ok){
     await fetchData()
@@ -30,7 +58,6 @@ const addTask = async () =>{
 }
 
 const markAsDone = async (id) => {
-  console.log(id);
   const res = await window.electronAPI.doneTask(id);
   if(res.ok){
     await fetchData()
@@ -38,7 +65,6 @@ const markAsDone = async (id) => {
 };
 
 const deleteTask = async (id) => {
-  console.log(id);
   const res = await window.electronAPI.deleteTask(id);
   if(res.ok){
     await fetchData()
@@ -47,23 +73,19 @@ const deleteTask = async (id) => {
 
 const clearDoneTasks = async () =>{
   const res = await window.electronAPI.deleteBatchTasks(done_task)
-  if(res.ok){
+  if(res){
     await fetchData()
   }
-  console.log(res.ok)
 }
 
 const quitWindow = () => {
   window.electronAPI.closeWindow()
 }
-const calDay = (d) => {
-  var date1 = new Date(d);
+const calDay = (d, h, m) => {
+  var date1 = new Date(d + ` ${h}:${m}:00`);
   var date2 = new Date();
-  // console.log(date2)
   var difDate = date1.getTime() - date2.getTime();
-  // console.log(difDate / (1000 * 3600 * 24))
-  var days = Math.round(difDate / (1000 * 3600 * 24));
-  return days;
+  return Math.round(difDate / (1000 * 60));
 };
 
 const colorScale = (perc) => {
@@ -79,12 +101,14 @@ const colorScale = (perc) => {
   return "#" + ("000000" + h.toString(16)).slice(-6);
 };
 const returnCard = (cards) => {
+
   return cards
     .map((card) => {
-      console.log(card)
-      var perc = (calDay(card.start) / 30) * 100;
+      var minute = calDay(card.start, card.time.H, card.time.M)
+      var hour = minute / 60
+      var day = hour / 24
+      var perc = (day / 30) * 100;
       perc = perc > 100 ? 99 : perc;
-      // console.log(perc)
       return `    
       <div class="card ${mainStyle}" style="width: 15rem;text-align: center;min-width: 15em;border:none;cursur: pointer;" data-bs-toggle="modal" data-bs-target="#openCard${
         card._id
@@ -102,10 +126,8 @@ const returnCard = (cards) => {
                 a 15.9155 15.9155 0 0 1 0 31.831
                 a 15.9155 15.9155 0 0 1 0 -31.831"
             />
-            ${calDay(card.start) == 0 ? `<text x="18" y="20" class="percentage ${mainStyle}" style="font-size:0.50em;">Today</text>` :`<text x="18" y="19" class="percentage ${mainStyle}" style="font-size:0.70em;">${calDay(card.start)}</text>`}
-            <text x="18" y="24" class="percentage ${mainStyle}" style="font-size: 0.3em;">${
-              calDay(card.start) == 0 ? "" : "Days"
-            }</text>
+            <text x="18" y="19" class="percentage ${mainStyle}" style="font-size:0.70em;">${day > 1 ? Math.ceil(day) : hour > 1 ? Math.ceil(hour) : minute}</text>
+            <text x="18" y="24" class="percentage ${mainStyle}" style="font-size: 0.3em;">${day > 1 ? "Days" : hour > 1 ? "Hours" : "Minutes"}</text>
           </svg>
         </div>
         <div class="card-body">
@@ -119,9 +141,7 @@ const returnCard = (cards) => {
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color:${colorScale(perc)};" >
-        <h5 class="modal-title" id="exampleModalLongTitle">Due ${
-          card.start
-        }</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Due ${`${card.start} ${card.time.H}:${card.time.M}`}</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -147,10 +167,6 @@ const returnCard = (cards) => {
 const returnDoneCard = (cards) => {
   return cards
     .map((card) => {
-      console.log(card)
-      var perc = (calDay(card.start) / 30) * 100;
-      perc = perc > 100 ? 99 : perc;
-      // console.log(perc)
       return `    
       <div class="card ${mainStyle}" style="width: 15rem;text-align: center;min-width: 15em;border:none;cursur: pointer;" data-bs-toggle="modal" data-bs-target="#openDoneCard${card._id}">
         <div class="single-chart">
@@ -178,7 +194,7 @@ const returnDoneCard = (cards) => {
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: gray;" >
-        <h5 class="modal-title" id="exampleModalLongTitle">Due ${card.start}</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Due ${`${card.start} ${card.time.H}:${card.time.M}`}</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -216,43 +232,43 @@ const lightMode = () =>{
 const fetchData = async () => {
   var tasks = await window.electronAPI.getTasks()
   tasks = tasks.map((t) =>t.doc)
-  console.log('reflesh')
+  // await window.electronAPI.deleteTask("7b791cd5-a064-4cda-847d-e8adb74ca881")
   if (tasks.length != null) {
     sort_task = tasks
-      .sort((t1, t2) => new Date(t1.start) - new Date(t2.start))
+      .sort((t1, t2) => calDay(t1.start, t1.time.H, t1.time.M) - calDay(t2.start, t2.time.H, t2.time.M))
       .filter((t) => t.status == "undone");
 
     window.localStorage.setItem('undone_task', JSON.stringify(sort_task))
 
-    outOfDate = sort_task.filter((t) => calDay(t.start) < 0);
-    sort_task = sort_task.filter((t) => calDay(t.start) >= 0);
+    outOfDate = sort_task.filter((t) => calDay(t.start, t.time.H, t.time.M) < 0);
+    sort_task = sort_task.filter((t) => calDay(t.start, t.time.H, t.time.M) >= 0);
     done_task = tasks.filter((t) => t.status == "done");
 
     if (outOfDate.length) {
-      // console.log(outOfDate.length)
       outOfDate.map(
         async (task) => await window.electronAPI.deleteTask(task._id)
       );
     }
-    console.log(sort_task)
   }
-  cardShow.innerHTML = returnCard(sort_task);
-  taskCount.innerText = sort_task.length
-  doneCardShow.innerHTML = returnDoneCard(done_task);
-  doneTaskCount.innerText = done_task.length
-  window.localStorage.setItem('tasks',JSON.stringify(sort_task));
+  if(window.location.href.split('/').pop() == "index.html"){
+    cardShow.innerHTML = returnCard(sort_task);
+    taskCount.innerText = sort_task.length
+    doneCardShow.innerHTML = returnDoneCard(done_task);
+    doneTaskCount.innerText = done_task.length
+    window.localStorage.setItem('tasks',JSON.stringify(sort_task));
+  }
 }
 
 window.onload = async function () {
   sidenav.innerHTML += navbar(['active','',''])
+  add24HourTimePicker()
   if(window.localStorage.getItem("light-mode") == "true"){
     lightMode()
     mainStyle = "light-mode"
   }
   
   await fetchData()
-  // console.log(username)
 };
 
 
-setInterval(fetchData, 600000)
+setInterval(fetchData, 60000)

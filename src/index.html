@@ -196,8 +196,21 @@
               <input id="taskTitle" class="form-control" type="text" rows="1"  placeholder="Task Title" onchange="task.title = this.value">
             </div>
             <div class="form-group" >
-              <label for="startDate">Due Date</label>
-              <input id="startDate" class="form-control" rows="2"  type="date" onchange="task.start = this.value"/>
+              <label for="startDatetime">Due Date</label>
+              <div class="row" id="startDatetime">
+                <div class="col-7">
+                  <input id="startDate" class="form-control" rows="2"  type="date" onchange="task.start = this.value"/>
+                </div>
+                <div class="col-2" style="padding: 0;"> 
+                  <select class="form-select" id="hour-select" onchange="task.time.H = this.value"></select>
+                </div>
+                <div class="col-1" style="padding: 0; width: 10px;text-align: center;">
+                  <p>:</p>
+                </div>
+                <div class="col-2" style="padding: 0;">
+                  <select class="form-select" id="minute-select" onchange="task.time.M = this.value"></select>
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <label for="taskDetail">Detail</label>
@@ -225,24 +238,6 @@
   </div>
 
   <script>
-    // headerTitle.innerHTML = username
-
-    const handleTitle = (value) =>{
-      task.title = value
-      console.log(task)
-    }
-    const handleTaskDetail = (value) =>{
-      task.detail = value
-      console.log(task)
-    }
-    const handleStartDate = (value) =>{
-      task.start = value
-      console.log(task)
-    }
-    const handleColor = (value) =>{
-      task.color = value
-      console.log(task)
-    }
   </script>
 </body>
 

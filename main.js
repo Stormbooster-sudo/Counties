@@ -1,6 +1,7 @@
 const { app, BrowserWindow, Tray, Menu, ipcMain } = require('electron')
 const path = require('path')
 const Store = require('electron-store');
+const moment = require('moment')
 const AutoLaunch = require('auto-launch')
 const PounchDB = require('pouchdb')
 const url = ""
@@ -59,8 +60,6 @@ const createWindow = async () => {
     const childSize = childWin.getSize();
     store.set("child-pos", childPositon)
     store.set("child-size",childSize)
-    console.log(childSize)
-    console.log(store.get("child-pos"))
   });
 
   var appIcon = null;
@@ -104,9 +103,12 @@ ipcMain.handle("close-win", ()=>{
 })
 
 ipcMain.handle("add-task", async (event, data) =>{
-  const res = await db.post(data)
-  console.log(res)
-  return res
+  try{
+    const res = await db.post(data)
+    return res
+  }catch(err){
+    console.log(err)
+  }
 } )
 
 ipcMain.handle("get-tasks", async () =>{
@@ -126,6 +128,7 @@ ipcMain.handle("done-task", async (event, data) => {
       title: doc.title,
       detail: doc.detail,
       start: doc.start,
+      time: doc.time,
       status: "done",
       done: moment().format("YYYY-MM-DD hh:mm")
     });
@@ -170,12 +173,12 @@ ipcMain.handle("update-date-task", async (event, data) => {
       detail: doc.detail,
       status: doc.status,
       start: doc_start,
+      time: doc.time,
       color: doc.color
     });
   } catch (err) {
     console.log(err);
   }
-  console.log(res)
   return res
 })
 
@@ -184,7 +187,6 @@ ipcMain.handle('set-auto-launch', async (event, data) => {
 })
 
 app.on('window-all-closed', () => {
-  console.log()
   if (process.platform !== 'darwin') app.quit()
 })
 
