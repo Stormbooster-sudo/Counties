@@ -36,7 +36,7 @@ const createWindow = async () => {
   mainWindow.removeMenu()
   mainWindow.setMenu(null)
   await mainWindow.loadFile('src/index.html')
-  // mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools()
 
   mainWindow.on('minimize',async function(event){
     event.preventDefault();
@@ -52,7 +52,7 @@ const createWindow = async () => {
     childWin.removeMenu()
     childWin.setMenu(null)
     childWin.loadFile('src/index_child.html')
-    // childWin.webContents.openDevTools()
+    childWin.webContents.openDevTools()
     childWin.show();
   });
 

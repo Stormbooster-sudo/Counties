@@ -3,6 +3,7 @@ const confirmButton = document.getElementById("confirm-change")
 const cancelButton = document.getElementById("cancel-change")
 const selectedDate = document.getElementById("add-calendar-modal")
 const selectedTask = document.getElementById("detail-calendar-modal")
+var mainStyle = ""
 var task = {title:"", detail:"", start: new Date(), status: 'undone', color: '#46AF5F'}
 
 const addTaskCalendarModal = (date) =>{

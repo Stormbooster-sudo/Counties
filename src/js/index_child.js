@@ -1,25 +1,6 @@
 
 const cardShow = document.getElementById("card-show");
 var widgetStyle = ""
-const calDay = (d, h, m) => {
-  var date1 = new Date(d + ` ${h}:${m}:00`);
-  var date2 = new Date();
-  var difDate = date1.getTime() - date2.getTime();
-  return Math.round(difDate / (1000 * 60));
-};
-
-const colorScale = (perc) => {
-  var r,g,b = 0;
-  if (perc < 50) {
-    r = 255;
-    g = Math.round(5.1 * perc);
-  } else {
-    g = 255;
-    r = Math.round(510 - 5.1 * perc);
-  }
-  var h = r * 0x10000 + g * 0x100 + b * 0x1;
-  return "#" + ("000000" + h.toString(16)).slice(-6);
-};
 
 const returnCard = (cards) => {
   return cards
