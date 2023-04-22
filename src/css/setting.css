@@ -1,0 +1,25 @@
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+.modal-content {
+    background-color: #3c3c3c;
+}
+
+.modal-body {
+    font-size: 20px;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+.form-group {
+    margin-bottom: 1em;
+}

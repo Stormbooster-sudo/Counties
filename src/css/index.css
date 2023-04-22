@@ -1,0 +1,114 @@
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+.text-count {
+    height: 45px;
+    margin-bottom: 0.5em;
+}
+
+.text-count h1 {
+    display: inline;
+    vertical-align: middle;
+    line-height: 42px;
+}
+
+.circle {
+    width: 8em;
+    height: 8em;
+    line-height: 1em;
+    margin-left: 28%;
+    margin-top: 10px;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border: solid 10px #1464F4;
+    color: #1464F4;
+    text-align: center;
+    display: block;
+}
+
+.single-chart {
+    margin-left: 2.2em;
+    width: 70%;
+    justify-content: space-around;
+}
+
+#card-show::-webkit-scrollbar-track {
+    background-color: white;
+}
+
+#card-show::-webkit-scrollbar-thumb {
+    background-color: white;
+}
+
+.auto-grid {
+    --auto-grid-min-size: 16rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--auto-grid-min-size), 1fr));
+}
+
+.card {
+    background: transparent;
+}
+
+.card:hover {
+    background-color: #111;
+}
+
+.card-body {
+    padding-top: 5px;
+    max-height: 6em;
+    overflow-y: hidden;
+}
+
+.card.light-mode {
+    background: transparent;
+}
+
+.card.light-mode:hover {
+    background-color: #bdbdbdde;
+}
+
+/* .fill-div{
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+  } */
+.float-button {
+    top: 80%;
+    left: 85%;
+    width: 5em;
+    height: 5em;
+    position: fixed;
+    background-color: rgba(235, 108, 108, 0.7);
+    border-radius: 4em;
+    text-align: center;
+    z-index: 99;
+}
+
+.float-button:hover {
+    background-color: rgb(117, 51, 51);
+    transition-duration: 100ms;
+}
+
+.modal-content {
+    background-color: #3c3c3c;
+}
+
+.modal-body {
+    font-size: 20px;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+.form-group {
+    margin-bottom: 1em;
+}
