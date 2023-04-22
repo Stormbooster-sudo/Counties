@@ -4,10 +4,10 @@ const cancelButton = document.getElementById("cancel-change")
 const selectedDate = document.getElementById("add-calendar-modal")
 const selectedTask = document.getElementById("detail-calendar-modal")
 var mainStyle = ""
-var task = {title:"", detail:"", start: new Date(), status: 'undone', color: '#46AF5F'}
+var task = { title: "", detail: "", start: new Date(), status: 'undone', color: '#46AF5F' }
 
-const addTaskCalendarModal = (date) =>{
-    return `<div class="modal fade zoom-in" id="addTaskModalCalendar" tabindex="-1">
+const addTaskCalendarModal = (date) => {
+  return `<div class="modal fade zoom-in" id="addTaskModalCalendar" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header ${mainStyle}">
@@ -62,7 +62,7 @@ const addTaskCalendarModal = (date) =>{
   </div>`
 }
 
-const taskDetailCalendarModal = (task) =>{
+const taskDetailCalendarModal = (task) => {
   return `
   <div class="modal fade zoom-in" id="taskDetailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -88,85 +88,85 @@ const taskDetailCalendarModal = (task) =>{
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    sidenav.innerHTML += navbar(['','active',''])
-    exitModal.innerHTML += exitAlertModal()
-    var calendarEl = document.getElementById("calendar");
-    window.onload = async function () {
-      var tasks_data = JSON.parse(await window.localStorage.getItem('undone_task'))
-      tasks_data.map((t) => t.id = t._id)
-      var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: "dayGridMonth",
-        height: 750,
-        selectable: true,
-        headerToolbar: {
-          left: "prev,next today",
-          center: "title",
-          right: "dayGridMonth",
-        },
-        editable: true,
-        dayMaxEventRows: true,
-        eventDrop: function(info){
-          const data = {id: info.event.id, start: info.event.startStr}
-          alertModal.show()
-          confirmButton.addEventListener('click', async function(event) {
-            const res = await window.electronAPI.updateDateTask(data)
-            if(res.ok){
-              await fetchData()
-              tasks_data = JSON.parse(window.localStorage.getItem('undone_task'))
-              tasks_data.map((t) => t.id = t._id)
-            }
-            alertModal.hide()
-          })
-          cancelButton.addEventListener('click', event => {
-            window.location.reload()
-          })
-        },
-        dateClick: function(info) {
-            task.start = info.dateStr
-            selectedDate.innerHTML += addTaskCalendarModal(info.dateStr)
-            var addTaskModal = new bootstrap.Modal('#addTaskModalCalendar')
-            var addTaskModalEl = document.getElementById("addTaskModalCalendar")
-            var addBtn = document.getElementById("add-btn")
-            add24HourTimePicker()
-            addTaskModal.show()
-            addTaskModalEl.addEventListener('hidden.bs.modal', async function(event) {
-                selectedDate.innerHTML = ""
-            })
-            addBtn.addEventListener('click',async ()=>{
-                const res = await window.electronAPI.addTask(task)
-                if(res.ok){
-                    await fetchData()
-                }
-                window.location.reload()
-            })
-          },
-        eventClick:function(info){
-          var clickedTask = tasks_data.filter((t)=> t.id == info.event.id)
-            selectedTask.innerHTML += taskDetailCalendarModal(clickedTask[0])
-            var taskDetailModal = new bootstrap.Modal("#taskDetailModal")
-            var taskDetailModalEl = document.getElementById("taskDetailModal")
-            var doneTaskBtn = document.getElementById("done-btn")
-            taskDetailModal.show()
-            taskDetailModalEl.addEventListener('hidden.bs.modal', async function(event) {
-                selectedTask.innerHTML = ""
-            })
-            doneTaskBtn.addEventListener('click', async ()=>{
-              await markAsDone(clickedTask[0].id)
-              tasks_data = tasks_data.filter((t)=> t.id != clickedTask[0].id)
-              window.localStorage.setItem("undone_task", JSON.stringify(tasks_data))
-            })
-        },
-        events: tasks_data
-      });
+  sidenav.innerHTML += navbar(['', 'active', ''])
+  exitModal.innerHTML += exitAlertModal()
+  var calendarEl = document.getElementById("calendar");
+  window.onload = async function () {
+    var tasks_data = JSON.parse(await window.localStorage.getItem('undone_task'))
+    tasks_data.map((t) => t.id = t._id)
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: "dayGridMonth",
+      height: 750,
+      selectable: true,
+      headerToolbar: {
+        left: "prev,next today",
+        center: "title",
+        right: "dayGridMonth",
+      },
+      editable: true,
+      dayMaxEventRows: true,
+      eventDrop: function (info) {
+        const data = { id: info.event.id, start: info.event.startStr }
+        alertModal.show()
+        confirmButton.addEventListener('click', async function (event) {
+          const res = await window.electronAPI.updateDateTask(data)
+          if (res.ok) {
+            await fetchData()
+            tasks_data = JSON.parse(window.localStorage.getItem('undone_task'))
+            tasks_data.map((t) => t.id = t._id)
+          }
+          alertModal.hide()
+        })
+        cancelButton.addEventListener('click', event => {
+          window.location.reload()
+        })
+      },
+      dateClick: function (info) {
+        task.start = info.dateStr
+        selectedDate.innerHTML += addTaskCalendarModal(info.dateStr)
+        var addTaskModal = new bootstrap.Modal('#addTaskModalCalendar')
+        var addTaskModalEl = document.getElementById("addTaskModalCalendar")
+        var addBtn = document.getElementById("add-btn")
+        add24HourTimePicker()
+        addTaskModal.show()
+        addTaskModalEl.addEventListener('hidden.bs.modal', async function (event) {
+          selectedDate.innerHTML = ""
+        })
+        addBtn.addEventListener('click', async () => {
+          const res = await window.electronAPI.addTask(task)
+          if (res.ok) {
+            await fetchData()
+          }
+          window.location.reload()
+        })
+      },
+      eventClick: function (info) {
+        var clickedTask = tasks_data.filter((t) => t.id == info.event.id)
+        selectedTask.innerHTML += taskDetailCalendarModal(clickedTask[0])
+        var taskDetailModal = new bootstrap.Modal("#taskDetailModal")
+        var taskDetailModalEl = document.getElementById("taskDetailModal")
+        var doneTaskBtn = document.getElementById("done-btn")
+        taskDetailModal.show()
+        taskDetailModalEl.addEventListener('hidden.bs.modal', async function (event) {
+          selectedTask.innerHTML = ""
+        })
+        doneTaskBtn.addEventListener('click', async () => {
+          await markAsDone(clickedTask[0].id)
+          tasks_data = tasks_data.filter((t) => t.id != clickedTask[0].id)
+          window.localStorage.setItem("undone_task", JSON.stringify(tasks_data))
+        })
+      },
+      events: tasks_data
+    });
 
-      calendar.render();
-      if(window.localStorage.getItem("light-mode") == 'true'){
-        var aTag = document.getElementsByTagName("a")
-        for(var i = 0; i < aTag.length; i++){
-          aTag[i].style.color = "black"
-        }
-        mainStyle = "light-mode"
-        lightMode()
+    calendar.render();
+    if (window.localStorage.getItem("light-mode") == 'true') {
+      var aTag = document.getElementsByTagName("a")
+      for (var i = 0; i < aTag.length; i++) {
+        aTag[i].style.color = "black"
       }
-    };
-  });
+      mainStyle = "light-mode"
+      lightMode()
+    }
+  };
+});

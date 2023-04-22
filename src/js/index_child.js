@@ -8,7 +8,7 @@ const returnCard = (cards) => {
       var minute = calDay(card.start, card.time.H, card.time.M)
       var hour = minute / 60
       var day = hour / 24
-      var perc = (day/ 30) * 100;
+      var perc = (day / 30) * 100;
       perc = perc > 100 ? 99 : perc;
       return `    
   <div class="card ${widgetStyle}" style="text-align: center;;background: transparent;border: none;">
@@ -46,7 +46,7 @@ window.onload = async function () {
   var mainWidget = document.getElementById('widget-main')
   var widgetTransparent = window.localStorage.getItem('widget-transparent')
   mainWidget.style.background = `rgba(0, 0, 0, ${widgetTransparent})`
-  if(window.localStorage.getItem("light-mode-widget") == 'true'){
+  if (window.localStorage.getItem("light-mode-widget") == 'true') {
     mainWidget.style.background = `rgba(225, 225, 225, ${widgetTransparent})`
     widgetStyle = "light-mode"
   }

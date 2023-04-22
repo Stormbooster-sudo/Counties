@@ -9,14 +9,14 @@ var modalHasShow = false
 
 const deleteTask = async (id) => {
   const res = await window.electronAPI.deleteTask(id);
-  if(res.ok){
+  if (res.ok) {
     await fetchData()
   }
 };
 
-const clearDoneTasks = async () =>{
+const clearDoneTasks = async () => {
   const res = await window.electronAPI.deleteBatchTasks(done_task)
-  if(res){
+  if (res) {
     await fetchData()
   }
 }
@@ -30,9 +30,8 @@ const returnCard = (cards) => {
       var perc = (day / 30) * 100;
       perc = perc > 100 ? 99 : perc;
       return `    
-      <div class="card ${mainStyle}" style="width: 15rem;text-align: center;min-width: 15em;border:none;cursur: pointer;" data-bs-toggle="modal" data-bs-target="#openCard${
-        card._id
-      }">
+      <div class="card ${mainStyle}" style="width: 15rem;text-align: center;min-width: 15em;border:none;cursur: pointer;" data-bs-toggle="modal" data-bs-target="#openCard${card._id
+        }">
         <div class="single-chart">
           <svg viewBox="0 0 36 36" class="circular-chart" >
             <path class="circle-bg ${mainStyle}"
@@ -55,9 +54,8 @@ const returnCard = (cards) => {
           <p class="card-text">${card.detail}</p>
         </div>
   </div>
-  <div class="modal fade zoom-in" id="openCard${
-    card._id
-  }" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal fade zoom-in" id="openCard${card._id
+        }" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color:${colorScale(perc)};" >
@@ -71,8 +69,7 @@ const returnCard = (cards) => {
         <p>"${card.detail}"</p>
       </div>
       <div class="modal-footer ${mainStyle}">
-        <button id="done-btn" type="button" class="btn btn-primary"  data-bs-dismiss="modal" style="width: 100%;" onclick=\"markAsDone(\'${
-          card._id
+        <button id="done-btn" type="button" class="btn btn-primary"  data-bs-dismiss="modal" style="width: 100%;" onclick=\"markAsDone(\'${card._id
         }\')\" >Mask as Done</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width: 100%;">Close</button>
       </div>
@@ -136,23 +133,22 @@ const returnDoneCard = (cards) => {
 };
 
 window.onload = async function () {
-  sidenav.innerHTML += navbar(['active','',''])
+  sidenav.innerHTML += navbar(['active', '', ''])
   exitModal.innerHTML += exitAlertModal()
   add24HourTimePicker()
-  if(window.localStorage.getItem("light-mode") == "true"){
+  if (window.localStorage.getItem("light-mode") == "true") {
     lightMode()
     mainStyle = "light-mode"
   }
-  
+
   await fetchData()
 
   var modals = document.getElementsByClassName('modal')
-  console.log(modals)
-  for(var i = 0; i < modals.length; i++){
+  for (var i = 0; i < modals.length; i++) {
     modals[i].addEventListener('show.bs.modal', event => {
       modalHasShow = true
     })
-    modals[i].addEventListener('hide.bs.modal',async function(event) {
+    modals[i].addEventListener('hide.bs.modal', async function (event) {
       modalHasShow = false
       await fetchData()
     })
@@ -160,7 +156,7 @@ window.onload = async function () {
 };
 
 
-setInterval(async function(){
-  if(!modalHasShow)
+setInterval(async function () {
+  if (!modalHasShow)
     await fetchData()
 }, 60000)
