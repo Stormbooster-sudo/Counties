@@ -11,6 +11,7 @@ var task = {title:"", detail:"", start: new Date(), time:{H: "00", M: "00"}, sta
 var sort_task = []
 var outOfDate = []
 var done_task = []
+var modalHasShow = false
 
 const navbar = (page) =>{
   return `
@@ -232,7 +233,6 @@ const lightMode = () =>{
 const fetchData = async () => {
   var tasks = await window.electronAPI.getTasks()
   tasks = tasks.map((t) =>t.doc)
-  // await window.electronAPI.deleteTask("7b791cd5-a064-4cda-847d-e8adb74ca881")
   if (tasks.length != null) {
     sort_task = tasks
       .sort((t1, t2) => calDay(t1.start, t1.time.H, t1.time.M) - calDay(t2.start, t2.time.H, t2.time.M))
@@ -268,7 +268,22 @@ window.onload = async function () {
   }
   
   await fetchData()
+
+  var modals = document.getElementsByClassName('modal')
+  console.log(modals)
+  for(var i = 0; i < modals.length; i++){
+    modals[i].addEventListener('show.bs.modal', event => {
+      modalHasShow = true
+    })
+    modals[i].addEventListener('hide.bs.modal',async function(event) {
+      modalHasShow = false
+      await fetchData()
+    })
+  }
 };
 
 
-setInterval(fetchData, 60000)
+setInterval(async function(){
+  if(!modalHasShow)
+    await fetchData()
+}, 60000)

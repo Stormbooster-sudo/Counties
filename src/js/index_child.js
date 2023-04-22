@@ -1,4 +1,4 @@
-import {calDay} from './index.js'
+
 const cardShow = document.getElementById("card-show");
 var widgetStyle = ""
 const calDay = (d, h, m) => {

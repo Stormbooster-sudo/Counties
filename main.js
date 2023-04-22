@@ -36,7 +36,7 @@ const createWindow = async () => {
   mainWindow.removeMenu()
   mainWindow.setMenu(null)
   await mainWindow.loadFile('src/index.html')
-  mainWindow.webContents.openDevTools()
+  // mainWindow.webContents.openDevTools()
   mainWindow.on('minimize',async function(event){
     event.preventDefault();
     if (process.platform === 'darwin') {
