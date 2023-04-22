@@ -88,6 +88,7 @@ const taskDetailCalendarModal = (task) =>{
 
 document.addEventListener("DOMContentLoaded", function () {
     sidenav.innerHTML += navbar(['','active',''])
+    exitModal.innerHTML += exitAlertModal()
     var calendarEl = document.getElementById("calendar");
     window.onload = async function () {
       var tasks_data = JSON.parse(await window.localStorage.getItem('undone_task'))

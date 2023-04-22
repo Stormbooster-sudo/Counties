@@ -25,6 +25,7 @@ const handleAutoLaunchCheck = async () =>{
 
 window.onload = async function () {
     sidenav.innerHTML += navbar(['','','active'])
+    exitModal.innerHTML += exitAlertModal()
     var mainStyle = window.localStorage.getItem("light-mode")
     mainStyleCheckBox.checked = !(mainStyle == 'true')
     widgetStyleCheckBox.checked = !(window.localStorage.getItem("light-mode-widget") == 'true')
