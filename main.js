@@ -37,12 +37,12 @@ const createWindow = async () => {
   mainWindow.setMenu(null)
   await mainWindow.loadFile('src/index.html')
   // mainWindow.webContents.openDevTools()
+
   mainWindow.on('minimize',async function(event){
     event.preventDefault();
     if (process.platform === 'darwin') {
       app.dock.hide();
     }
-    event.preventDefault();
     mainWindow.hide();
     if(store.has("child-pos")&&store.has("child-size")){
       const pos = store.get("child-pos")
@@ -55,11 +55,10 @@ const createWindow = async () => {
     // childWin.webContents.openDevTools()
     childWin.show();
   });
+
   mainWindow.on ('close', () => { 
-    const childPositon = childWin.getPosition();
-    const childSize = childWin.getSize();
-    store.set("child-pos", childPositon)
-    store.set("child-size",childSize)
+    store.set("child-pos", childWin.getPosition())
+    store.set("child-size", childWin.getSize())
   });
 
   var appIcon = null;
@@ -67,6 +66,8 @@ const createWindow = async () => {
   var contextMenu = Menu.buildFromTemplate([
     { label: 'Show App', click:  function(){
         mainWindow.show();
+        store.set("child-pos", childWin.getPosition())
+        store.set("child-size", childWin.getSize())
         childWin.hide();
     } },
     { label: 'Quit', click:  function(){
