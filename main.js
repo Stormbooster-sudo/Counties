@@ -25,7 +25,7 @@ const createWindow = async () => {
     opacity: 0.9,
     transparent: true,
     width: 450,
-    height: 200,
+    height: 128,
     show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
@@ -52,6 +52,9 @@ const createWindow = async () => {
       childWin.setPosition(pos[0], pos[1])
       childWin.setSize(size[0], size[1])
     }
+    if(store.has("widget-alway-top"))
+      childWin.setAlwaysOnTop(store.get("widget-alway-top"))
+
     childWin.removeMenu()
     childWin.setMenu(null)
     childWin.loadFile('src/index_child.html')
@@ -77,6 +80,8 @@ const createWindow = async () => {
     },
     {
       label: 'Quit', click: function () {
+        store.set("child-pos", childWin.getPosition())
+        store.set("child-size", childWin.getSize())
         app.isQuiting = true;
         app.quit();
       }
@@ -190,11 +195,11 @@ ipcMain.handle("update-date-task", async (event, data) => {
   return res
 })
 
-ipcMain.handle('set-auto-launch', async (event, data) => {
+ipcMain.handle('set-auto-launch', (event, data) => {
   store.set('auto-launch', data)
 })
 
-ipcMain.handle('set-theme', async (event, data) => {
+ipcMain.handle('set-theme', (event, data) => {
   if(data){
     store.set('theme', 'dark')
     nativeTheme.themeSource = 'dark'
@@ -202,8 +207,12 @@ ipcMain.handle('set-theme', async (event, data) => {
     store.set('theme', 'light')
     nativeTheme.themeSource = 'light'
   }
-  
 })
+
+ipcMain.handle('set-alway-top', (event, data) => {
+  store.set('widget-alway-top', data)
+})
+
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
 })

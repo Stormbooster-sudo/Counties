@@ -10,7 +10,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   updateDateTask: (payload) => ipcRenderer.invoke('update-date-task', payload),
   closeWindow: () => ipcRenderer.invoke('close-win'),
   setAutoLaunch: (payload) => ipcRenderer.invoke('set-auto-launch', payload),
-  setTheme: (payload) => ipcRenderer.invoke('set-theme', payload)
+  setTheme: (payload) => ipcRenderer.invoke('set-theme', payload),
+  setAlwayTop: (payload) => ipcRenderer.invoke("set-alway-top", payload)
 })
 
 // All the Node.js APIs are available in the preload process.

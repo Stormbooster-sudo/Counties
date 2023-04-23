@@ -1,5 +1,6 @@
 var mainStyleCheckBox = document.getElementById('mainStyleCheck')
 var widgetStyleCheckBox = document.getElementById('widgetStyleCheck')
+var widgetAlwayTopCheckBox = document.getElementById('widgetAlwayTopCheck')
 var widgetTransparentRange = document.getElementById('transparent-range')
 var autoLaunchCheck = document.getElementById('autoLaunchCheck')
 var rangeDisplay = document.getElementById('transparent-display')
@@ -18,6 +19,12 @@ const handleWidgetTransparent = () => {
   window.localStorage.setItem("widget-transparent", value / 100)
 }
 
+const handleWidgetAlwayTopCheck = async () => {
+  var value = widgetAlwayTopCheckBox.checked
+  window.localStorage.setItem("widget-alway-top", value)
+  await window.electronAPI.setAlwayTop(value)
+}
+
 const handleAutoLaunchCheck = async () => {
   var value = autoLaunchCheck.checked
   window.localStorage.setItem('auto-launch', value)
@@ -31,10 +38,10 @@ window.onload = async function () {
   mainStyleCheckBox.checked = !(mainStyle == 'true')
   widgetStyleCheckBox.checked = !(window.localStorage.getItem("light-mode-widget") == 'true')
   autoLaunchCheck.checked = (window.localStorage.getItem("auto-launch") == 'true')
+  widgetAlwayTopCheckBox.checked = (window.localStorage.getItem("widget-alway-top") == 'true')
   if (mainStyle == 'true') {
     lightMode()
   }
-
   var widgetTrans = window.localStorage.getItem('widget-transparent')
   if (widgetTrans == null) {
     widgetTrans = 0.7
