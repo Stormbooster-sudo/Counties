@@ -1,4 +1,3 @@
-
 const cardShow = document.getElementById("card-show");
 var widgetStyle = ""
 
@@ -39,7 +38,13 @@ const returnCard = (cards) => {
 };
 
 const displayCard = () => {
-  cardShow.innerHTML = returnCard(JSON.parse(window.localStorage.getItem('tasks')));
+  var tasks = JSON.parse(window.localStorage.getItem('tasks'))
+  var outOfDate = tasks.filter((t) => calDay(t.start, t.time.H, t.time.M) < 0);
+  if(outOfDate.lenght){
+    outOfDate.map((t)=>deleteTask(t.id))
+  }
+  tasks = JSON.parse(window.localStorage.getItem('tasks'))
+  cardShow.innerHTML = returnCard(tasks);
 }
 
 window.onload = async function () {

@@ -1,8 +1,3 @@
-var task = { title: "", detail: "", start: new Date(), time: { H: "00", M: "00" }, status: 'undone', color: '#46AF5F' }
-var sort_task = []
-var outOfDate = []
-var done_task = []
-
 var sidenav = document.getElementById("sidenavbar")
 const navbar = (page) => {
     return `
@@ -37,6 +32,9 @@ const exitAlertModal = () => {
   </div>
     `
 }
+const quitWindow = () => {
+    window.electronAPI.closeWindow()
+}
 
 const add24HourTimePicker = () => {
     var hourSelect = document.getElementById('hour-select')
@@ -67,29 +65,6 @@ const add24HourTimePicker = () => {
     }
 }
 
-const addTask = async () => {
-    const res = await window.electronAPI.addTask(task)
-    if (res.ok) {
-        await fetchData()
-        if (window.location.href.split('/').pop() == "calendar.html") {
-            window.location.reload()
-        }
-    }
-}
-
-const markAsDone = async (id) => {
-    const res = await window.electronAPI.doneTask(id);
-    if (res.ok) {
-        await fetchData()
-        if (window.location.href.split('/').pop() == "calendar.html") {
-            window.location.reload()
-        }
-    }
-};
-
-const quitWindow = () => {
-    window.electronAPI.closeWindow()
-}
 const calDay = (d, h, m) => {
     var date1 = new Date(d + ` ${h}:${m}:00`);
     var date2 = new Date();
@@ -110,7 +85,6 @@ const colorScale = (perc) => {
     return "#" + ("000000" + h.toString(16)).slice(-6);
 };
 
-
 const lightMode = () => {
     document.getElementsByTagName('body')[0].classList.add("light-mode")
     document.getElementById('sidenavbar').classList.add("light-mode")
@@ -121,34 +95,5 @@ const lightMode = () => {
         modalHeader[i].classList.add('light-mode')
         modalBody[i].classList.add('light-mode')
         modalFooter[i].classList.add('light-mode')
-    }
-}
-
-const fetchData = async () => {
-    var tasks = await window.electronAPI.getTasks()
-    tasks = tasks.map((t) => t.doc)
-    if (tasks.length != null) {
-        sort_task = tasks
-            .sort((t1, t2) => calDay(t1.start, t1.time.H, t1.time.M) - calDay(t2.start, t2.time.H, t2.time.M))
-            .filter((t) => t.status == "undone");
-
-        window.localStorage.setItem('undone_task', JSON.stringify(sort_task))
-
-        outOfDate = sort_task.filter((t) => calDay(t.start, t.time.H, t.time.M) < 0);
-        sort_task = sort_task.filter((t) => calDay(t.start, t.time.H, t.time.M) >= 0);
-        done_task = tasks.filter((t) => t.status == "done");
-
-        if (outOfDate.length) {
-            outOfDate.map(
-                async (task) => await window.electronAPI.deleteTask(task._id)
-            );
-        }
-    }
-    if (window.location.href.split('/').pop() == "index.html") {
-        cardShow.innerHTML = returnCard(sort_task);
-        taskCount.innerText = sort_task.length
-        doneCardShow.innerHTML = returnDoneCard(done_task);
-        doneTaskCount.innerText = done_task.length
-        window.localStorage.setItem('tasks', JSON.stringify(sort_task));
     }
 }

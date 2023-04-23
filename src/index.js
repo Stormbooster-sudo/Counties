@@ -4,22 +4,9 @@ const add_btn = document.getElementById("add-btn");
 var headerTitle = document.getElementById("header-title")
 const taskCount = document.getElementById('task-count')
 const doneTaskCount = document.getElementById('done-task-count')
+var task = { title: "", detail: "", start: new Date(), time: { H: "00", M: "00" }, status: 'undone', color: '#46AF5F' }
 var mainStyle = ""
 var modalHasShow = false
-
-const deleteTask = async (id) => {
-  const res = await window.electronAPI.deleteTask(id);
-  if (res.ok) {
-    await fetchData()
-  }
-};
-
-const clearDoneTasks = async () => {
-  const res = await window.electronAPI.deleteBatchTasks(done_task)
-  if (res) {
-    await fetchData()
-  }
-}
 
 const returnCard = (cards) => {
   return cards

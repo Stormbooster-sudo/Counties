@@ -4,7 +4,7 @@ const cancelButton = document.getElementById("cancel-change")
 const selectedDate = document.getElementById("add-calendar-modal")
 const selectedTask = document.getElementById("detail-calendar-modal")
 var mainStyle = ""
-var task = { title: "", detail: "", start: new Date(), status: 'undone', color: '#46AF5F' }
+var task = { title: "", detail: "", start: new Date(), time: { H: "00", M: "00" }, status: 'undone', color: '#46AF5F' }
 
 const addTaskCalendarModal = (date) => {
   return `<div class="modal fade zoom-in" id="addTaskModalCalendar" tabindex="-1">

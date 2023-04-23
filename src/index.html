@@ -2,9 +2,11 @@
 <html>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script defer src="js/bootstrap.bundle.min.js"></script>
-  <script defer src="./js/index.js"></script>
-  <script defer src="./js/utils.js"></script>
+  <script defer src="./utils/bootstrap.bundle.min.js"></script>
+  <script defer src="./index.js"></script>
+  <script defer src="./utils/apparence.js"></script>
+  <script defer src="./utils/fetch_data.js"></script>
+  <script src="./utils/crud_task.js"></script>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/index.css">
@@ -99,7 +101,7 @@
           </form>
         </div>
         <div class="modal-footer" >
-          <button id="add-btn" type="button" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;" data-bs-dismiss="modal" onclick="addTask()" >Add</button>
+          <button id="add-btn" type="button" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;" data-bs-dismiss="modal" onclick="addTask(task)" >Add</button>
         </div>
       </div>
     </div>
