@@ -3,8 +3,9 @@ var widgetStyleCheckBox = document.getElementById('widgetStyleCheck')
 var widgetTransparentRange = document.getElementById('transparent-range')
 var autoLaunchCheck = document.getElementById('autoLaunchCheck')
 var rangeDisplay = document.getElementById('transparent-display')
-const handleMainStyleCheck = () => {
+const handleMainStyleCheck = async () => {
   window.localStorage.setItem("light-mode", !mainStyleCheckBox.checked)
+  await window.electronAPI.setTheme(mainStyleCheckBox.checked)
   window.location.reload()
 }
 const handleWidgetStyleCheck = () => {

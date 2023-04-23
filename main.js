@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, ipcMain } = require('electron')
+const { app, BrowserWindow, Tray, Menu, ipcMain, nativeTheme } = require('electron')
 const path = require('path')
 const Store = require('electron-store');
 const moment = require('moment')
@@ -35,6 +35,9 @@ const createWindow = async () => {
   mainWindow.removeMenu()
   mainWindow.setMenu(null)
   await mainWindow.loadFile('src/index.html')
+  
+  if(store.has('theme'))
+    nativeTheme.themeSource = store.get('theme')
   // mainWindow.webContents.openDevTools()
 
   mainWindow.on('minimize', async function (event) {
@@ -47,6 +50,7 @@ const createWindow = async () => {
       const pos = store.get("child-pos")
       const size = store.get("child-size")
       childWin.setPosition(pos[0], pos[1])
+      childWin.setSize(size[0], size[1])
     }
     childWin.removeMenu()
     childWin.setMenu(null)
@@ -190,6 +194,16 @@ ipcMain.handle('set-auto-launch', async (event, data) => {
   store.set('auto-launch', data)
 })
 
+ipcMain.handle('set-theme', async (event, data) => {
+  if(data){
+    store.set('theme', 'dark')
+    nativeTheme.themeSource = 'dark'
+  }else{
+    store.set('theme', 'light')
+    nativeTheme.themeSource = 'light'
+  }
+  
+})
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
 })

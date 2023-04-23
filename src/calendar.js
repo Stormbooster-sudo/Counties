@@ -90,6 +90,10 @@ const taskDetailCalendarModal = (task) => {
 document.addEventListener("DOMContentLoaded", function () {
   sidenav.innerHTML += navbar(['', 'active', ''])
   exitModal.innerHTML += exitAlertModal()
+  if(window.localStorage.getItem("light-mode") == 'true'){
+    mainStyle = "light-mode"
+    lightMode()
+  }
   var calendarEl = document.getElementById("calendar");
   window.onload = async function () {
     var tasks_data = JSON.parse(await window.localStorage.getItem('undone_task'))
@@ -160,13 +164,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     calendar.render();
-    if (window.localStorage.getItem("light-mode") == 'true') {
+    if (mainStyle == 'light-mode') {
       var aTag = document.getElementsByTagName("a")
       for (var i = 0; i < aTag.length; i++) {
         aTag[i].style.color = "black"
       }
-      mainStyle = "light-mode"
-      lightMode()
     }
   };
 });
