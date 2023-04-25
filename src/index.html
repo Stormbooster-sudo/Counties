@@ -48,9 +48,9 @@
       </div>
   </div>
 
-  <div class="float-button"  data-bs-toggle="modal" data-bs-target="#addTaskModal" ><p style="font-size: 3.5em;">+</p></div>
+  <div class="float-button"  onclick="addTaskModal.show()"><p style="font-size: 3.5em;">+</p></div>
   </div>
-  <div class="modal" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal" id="addTaskModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -63,10 +63,12 @@
           <form>
             <div class="form-group">
               <label for="taskTitle">Title</label>
+              <p class="require-label"></p>
               <input id="taskTitle" class="form-control" type="text" rows="1"  placeholder="Task Title" onchange="task.title = this.value">
             </div>
             <div class="form-group" >
               <label for="startDatetime">Due Date</label>
+              <p class="require-label"></p>
               <div class="row" id="startDatetime">
                 <div class="col-7">
                   <input id="startDate" class="form-control" rows="2"  type="date" onchange="task.start = this.value"/>
@@ -101,7 +103,7 @@
           </form>
         </div>
         <div class="modal-footer" >
-          <button id="add-btn" type="button" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;" data-bs-dismiss="modal" onclick="addTask(task)" >Add</button>
+          <button id="add-btn" type="button" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;" onclick="addTask(task, addTaskModal)" >Add</button>
         </div>
       </div>
     </div>

@@ -1,10 +1,19 @@
-const addTask = async (task) => {
+const addTask = async (task, modal) => {
+    if((task.title == "") || (task.start == null)){
+        var reqLabel = document.getElementsByClassName("require-label")
+        Array.prototype.forEach.call(reqLabel, function(el) {
+            el.innerText = "*require"
+        })
+        return
+    }
     const res = await window.electronAPI.addTask(task)
     if (res.ok) {
         await fetchData()
+        task = { title: "", detail: "", start: null, time: { H: "00", M: "00" }, status: 'undone', color: '#46AF5F' }
         if (window.location.href.split('/').pop() == "calendar.html") {
             window.location.reload()
         }
+        modal.hide()
     }
 }
 

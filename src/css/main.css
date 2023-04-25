@@ -173,6 +173,11 @@ button.close {
   }
 }
 
+.require-label{
+  color: rgba(217, 52, 52, 0.57);
+  font-size: small;
+}
+
 a {
   color: #f1f1f1;
   /* color: rgb(53, 53, 53); */

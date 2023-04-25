@@ -4,7 +4,7 @@ const cancelButton = document.getElementById("cancel-change")
 const selectedDate = document.getElementById("add-calendar-modal")
 const selectedTask = document.getElementById("detail-calendar-modal")
 var mainStyle = ""
-var task = { title: "", detail: "", start: new Date(), time: { H: "00", M: "00" }, status: 'undone', color: '#46AF5F' }
+var task = { title: "", detail: "", start: null, time: { H: "00", M: "00" }, status: 'undone', color: '#46AF5F' }
 
 const addTaskCalendarModal = (date) => {
   return `<div class="modal fade zoom-in" id="addTaskModalCalendar" tabindex="-1">
@@ -20,6 +20,7 @@ const addTaskCalendarModal = (date) => {
           <form>
             <div class="form-group">
               <label for="taskTitle">Title</label>
+              <p class="require-label"></p>
               <input id="taskTitle" class="form-control" type="text" rows="1"  placeholder="Task Title" onchange="task.title = this.value">
             </div>
             <div class="form-group" >
@@ -55,7 +56,7 @@ const addTaskCalendarModal = (date) => {
           </form>
         </div>
         <div class="modal-footer ${mainStyle}" >
-          <button id="add-btn" type="button" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;" data-bs-dismiss="modal" >Add</button>
+          <button id="add-btn" type="button" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;">Add</button>
         </div>
       </div>
     </div>
@@ -137,11 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
           selectedDate.innerHTML = ""
         })
         addBtn.addEventListener('click', async () => {
-          const res = await window.electronAPI.addTask(task)
-          if (res.ok) {
-            await fetchData()
-          }
-          window.location.reload()
+          addTask(task, addTaskModal)
         })
       },
       eventClick: function (info) {

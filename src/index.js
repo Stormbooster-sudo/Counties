@@ -4,7 +4,8 @@ const add_btn = document.getElementById("add-btn");
 var headerTitle = document.getElementById("header-title")
 const taskCount = document.getElementById('task-count')
 const doneTaskCount = document.getElementById('done-task-count')
-var task = { title: "", detail: "", start: new Date(), time: { H: "00", M: "00" }, status: 'undone', color: '#46AF5F' }
+var addTaskModal = new bootstrap.Modal('#addTaskModal')
+var task = { title: "", detail: "", start: null, time: { H: "00", M: "00" }, status: 'undone', color: '#46AF5F' }
 var mainStyle = ""
 var modalHasShow = false
 
@@ -119,6 +120,20 @@ const returnDoneCard = (cards) => {
     .join(" ");
 };
 
+const modalEventFlag = () => {
+  var modals = document.getElementsByClassName('modal')
+  for (var i = 0; i < modals.length; i++) {
+    modals[i].addEventListener('show.bs.modal', event => {
+      modalHasShow = true
+    })
+    modals[i].addEventListener('hide.bs.modal', async function (event) {
+      modalHasShow = false
+      await fetchData()
+      modalEventFlag()
+    })
+  }
+}
+
 window.onload = async function () {
   sidenav.innerHTML += navbar(['active', '', ''])
   exitModal.innerHTML += exitAlertModal()
@@ -129,21 +144,13 @@ window.onload = async function () {
   }
 
   await fetchData()
-
-  var modals = document.getElementsByClassName('modal')
-  for (var i = 0; i < modals.length; i++) {
-    modals[i].addEventListener('show.bs.modal', event => {
-      modalHasShow = true
-    })
-    modals[i].addEventListener('hide.bs.modal', async function (event) {
-      modalHasShow = false
-      await fetchData()
-    })
-  }
+  modalEventFlag()
 };
 
 
 setInterval(async function () {
-  if (!modalHasShow)
+  if(!modalHasShow){
     await fetchData()
+    modalEventFlag()
+  }
 }, 60000)
