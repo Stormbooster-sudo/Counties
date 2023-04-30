@@ -1,13 +1,15 @@
 const { app, BrowserWindow, Tray, Menu, ipcMain, nativeTheme } = require('electron')
 const path = require('path')
 const Store = require('electron-store');
-const moment = require('moment')
 const AutoLaunch = require('auto-launch')
-const PounchDB = require('pouchdb')
+const DatabaseOps = require('./database.js')
 const url = ""
 
+//For storing pre-config -> save in local AppData
 const store = new Store();
-const db = new PounchDB(path.join(__dirname.replace('\\resources\\app.asar', ''), 'eventDB'))
+//For main data
+const db = new DatabaseOps()
+
 const createWindow = async () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -116,82 +118,33 @@ ipcMain.handle("close-win", () => {
 })
 
 ipcMain.handle("add-task", async (event, data) => {
-  try {
-    const res = await db.post(data)
-    return res
-  } catch (err) {
-    console.log(err)
-  }
+  const res = await db.add(data)
+  return res
 })
 
 ipcMain.handle("get-tasks", async () => {
-  var res = await db.allDocs({
-    include_docs: true
-  });
+  const res = await db.getAllData()
   return res.rows
 })
 
 ipcMain.handle("done-task", async (event, data) => {
-  const doc_id = data;
-  try {
-    var doc = await db.get(doc_id);
-    var res = await db.put({
-      _id: doc_id,
-      _rev: doc._rev,
-      title: doc.title,
-      detail: doc.detail,
-      start: doc.start,
-      time: doc.time,
-      status: "done",
-      done: moment().format("YYYY-MM-DD hh:mm")
-    });
-  } catch (err) {
-    console.log(err);
-  }
+  const res = await db.updateDoneTask(data)
   return res
 })
 
 ipcMain.handle("delete-task", async (event, data) => {
-  const doc_id = data
-  try {
-    var doc = await db.get(doc_id);
-    var res = await db.remove(doc);
-  } catch (err) {
-    console.log(err);
-  }
+  const res = await db.delete(data)
   return res
 })
 
 ipcMain.handle('delete-batch-tasks', async (event, data) => {
-  var docs = data.map((t) => { return { _id: t._id, _rev: t._rev, _deleted: true } })
-  console.log(docs)
-  try {
-    var res = await db.bulkDocs(docs);
-  } catch (err) {
-    console.log(err);
-  }
+  const res = await db.deleteBulk(data)
   return res
 })
 
 ipcMain.handle("update-date-task", async (event, data) => {
-  console.log(data)
-  const doc_id = data.id
-  const doc_start = data.start
-  try {
-    var doc = await db.get(doc_id);
-    var res = await db.put({
-      _id: doc_id,
-      _rev: doc._rev,
-      title: doc.title,
-      detail: doc.detail,
-      status: doc.status,
-      start: doc_start,
-      time: doc.time,
-      color: doc.color
-    });
-  } catch (err) {
-    console.log(err);
-  }
+  // console.log(data)
+  const res = await db.updateDateTask(data)
   return res
 })
 
