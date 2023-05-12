@@ -32,8 +32,6 @@ const exitAlertModal = (element) => {
 }
 
 const lightMode = () => {
-    document.getElementsByTagName('body')[0].classList.add("light-mode")
-    document.getElementById('sidenavbar').classList.add("light-mode")
     var modalHeader = document.getElementsByClassName("modal-header")
     var modalBody = document.getElementsByClassName("modal-body")
     var modalFooter = document.getElementsByClassName("modal-footer")

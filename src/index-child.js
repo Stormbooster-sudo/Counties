@@ -13,7 +13,7 @@ const returnCard = (cards) => {
       var perc = (day / 30) * 100;
       perc = perc > 100 ? 99 : perc;
       return `    
-  <div class="card ${widgetStyle}" style="text-align: center;;background: transparent;border: none;">
+  <div class="card" style="text-align: center;background: transparent;border: none;">
 <div class="single-chart">
   <svg viewBox="0 0 36 36" class="circular-chart" >
     <path class="circle-bg ${widgetStyle}"
@@ -32,7 +32,7 @@ const returnCard = (cards) => {
   </svg>
 </div>
 <div class="card-body">
-  <p class="card-text">${card.title}</p>
+  <p class="card-text" style="${widgetStyle == "light-mode" ? "color: #111;" : "color: white;"}">${card.title}</p>
 </div>
 </div>
 `;

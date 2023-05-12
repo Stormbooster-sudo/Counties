@@ -53,7 +53,7 @@ body {
 .card-body {
     padding-top: 0;
     padding-bottom: 0;
-    max-height: 2em;
+    max-height: 1em;
     overflow: hidden;
 }
 
