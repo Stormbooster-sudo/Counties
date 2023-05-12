@@ -20,6 +20,7 @@ body {
     margin-left: 0.7em;
     width: 80%;
     justify-content: space-around;
+    -webkit-app-region: no-drag;
 }
 
 .circular-chart {

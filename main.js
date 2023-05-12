@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, ipcMain, nativeTheme } = require('electron')
+const { app, BrowserWindow, Tray, Menu, MenuItem, ipcMain, nativeTheme } = require('electron')
 const path = require('path')
 const Store = require('electron-store');
 const AutoLaunch = require('auto-launch')
@@ -11,7 +11,7 @@ const store = new Store();
 const db = new DatabaseOps()
 
 const createWindow = async () => {
-  // Create the browser window.
+  // create the browser window.
   const mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -21,13 +21,14 @@ const createWindow = async () => {
       nodeIntegration: true,
     }
   })
+  //create widget window (child window)
   const childWin = new BrowserWindow({
     parent: mainWindow,
     frame: false,
     opacity: 0.9,
     transparent: true,
     width: 450,
-    height: 128,
+    maxHeight: 128,
     show: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js')
@@ -37,8 +38,8 @@ const createWindow = async () => {
   mainWindow.removeMenu()
   mainWindow.setMenu(null)
   await mainWindow.loadFile('src/index.html')
-  
-  if(store.has('theme'))
+
+  if (store.has('theme'))
     nativeTheme.themeSource = store.get('theme')
   // mainWindow.webContents.openDevTools()
 
@@ -54,7 +55,7 @@ const createWindow = async () => {
       childWin.setPosition(pos[0], pos[1])
       childWin.setSize(size[0], size[1])
     }
-    if(store.has("widget-alway-top"))
+    if (store.has("widget-alway-top"))
       childWin.setAlwaysOnTop(store.get("widget-alway-top"))
 
     childWin.removeMenu()
@@ -69,11 +70,27 @@ const createWindow = async () => {
     store.set("child-size", childWin.getSize())
   });
 
+  //popup menu
+  //context menu
+  const ctxMenu = new Menu()
+  ctxMenu.append(new MenuItem({
+    label: "Open App", click: function () {
+      mainWindow.show();
+      store.set("child-pos", childWin.getPosition())
+      store.set("child-size", childWin.getSize())
+      childWin.hide();
+    }
+  }))
+  childWin.webContents.on("context-menu", (event, params) => {
+    ctxMenu.popup(childWin, params.x, params.y)
+  })
+
+  //tray menu
   var appIcon = null;
   appIcon = new Tray(path.join(__dirname, 'app-icon.png'));
   var contextMenu = Menu.buildFromTemplate([
     {
-      label: 'Show App', click: function () {
+      label: 'Open App', click: function () {
         mainWindow.show();
         store.set("child-pos", childWin.getPosition())
         store.set("child-size", childWin.getSize())
@@ -95,12 +112,11 @@ const createWindow = async () => {
 
 app.whenReady().then(() => {
   createWindow()
-
+  //auto-launch
   var autoLaunch = new AutoLaunch({
     name: 'Counties',
     path: app.getPath('exe'),
   });
-
   if (!store.has("auto-launch")) {
     store.set("auto-launch", false)
   }
@@ -153,10 +169,10 @@ ipcMain.handle('set-auto-launch', (event, data) => {
 })
 
 ipcMain.handle('set-theme', (event, data) => {
-  if(data){
+  if (data) {
     store.set('theme', 'dark')
     nativeTheme.themeSource = 'dark'
-  }else{
+  } else {
     store.set('theme', 'light')
     nativeTheme.themeSource = 'light'
   }

@@ -4,6 +4,12 @@ const db = new DBcrud();
 const cardShow = document.getElementById("card-show");
 var widgetStyle = ""
 
+cardShow.addEventListener("mouseover", (event) => {
+  event.preventDefault()
+  cardShow.style.cursor = "pointer";
+  return false;
+}, false)
+
 const returnCard = (cards) => {
   return cards
     .map((card) => {
