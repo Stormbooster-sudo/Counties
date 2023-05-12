@@ -59,7 +59,7 @@ const createWindow = async () => {
 
     childWin.removeMenu()
     childWin.setMenu(null)
-    childWin.loadFile('src/index_child.html')
+    childWin.loadFile('src/index-child.html')
     // childWin.webContents.openDevTools()
     childWin.show();
   });

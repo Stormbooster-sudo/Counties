@@ -3,10 +3,8 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script defer src="./utils/bootstrap.bundle.min.js"></script>
-  <script defer src="./index.js"></script>
-  <script defer src="./utils/apparence.js"></script>
-  <script defer src="./utils/fetch_data.js"></script>
-  <script src="./utils/crud_task.js"></script>
+  <script defer src="./index.js" type="module"></script>
+  <script defer src="./utils/common-apparence.js"></script>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/index.css">
@@ -30,7 +28,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-          <button id="logout-btn" type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="clearDoneTasks()" >Sure</button>
+          <button id="clear-done-cards" type="button" class="btn btn-primary" data-bs-dismiss="modal"  value="test">Sure</button>
         </div>
       </div>
     </div>
@@ -48,7 +46,7 @@
       </div>
   </div>
 
-  <div class="float-button"  onclick="addTaskModal.show()"><p style="font-size: 3.5em;">+</p></div>
+  <div class="float-button" id="add-task-btn" ><p style="font-size: 3.5em;">+</p></div>
   </div>
   <div class="modal" id="addTaskModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -60,37 +58,37 @@
           </button>
         </div>
         <div class="modal-body">
-          <form>
+          <form action="" id="task-form">
             <div class="form-group">
               <label for="taskTitle">Title</label>
               <p class="require-label"></p>
-              <input id="taskTitle" class="form-control" type="text" rows="1"  placeholder="Task Title" onchange="task.title = this.value">
+              <input id="taskTitle" class="form-control" type="text" rows="1"  placeholder="Task Title" >
             </div>
             <div class="form-group" >
               <label for="startDatetime">Due Date</label>
               <p class="require-label"></p>
               <div class="row" id="startDatetime">
                 <div class="col-7">
-                  <input id="startDate" class="form-control" rows="2"  type="date" onchange="task.start = this.value"/>
+                  <input id="startDate" class="form-control" rows="2"  type="date"/>
                 </div>
                 <div class="col-2" style="padding: 0;"> 
-                  <select class="form-select" id="hour-select" onchange="task.time.H = this.value"></select>
+                  <select class="form-select" id="hour-select" ></select>
                 </div>
                 <div class="col-1" style="padding: 0; width: 10px;text-align: center;">
                   <p>:</p>
                 </div>
                 <div class="col-2" style="padding: 0;">
-                  <select class="form-select" id="minute-select" onchange="task.time.M = this.value"></select>
+                  <select class="form-select" id="minute-select"></select>
                 </div>
               </div>
             </div>
             <div class="form-group">
               <label for="taskDetail">Detail</label>
-              <textarea class="form-control" id="taskDetail" rows="3" placeholder="Task Detail" onchange="task.detail = this.value"></textarea>
+              <textarea class="form-control" id="taskDetail" rows="3" placeholder="Task Detail" ></textarea>
             </div>
             <div class="form-group">
               <label for="taskCalendarColor">Color (Calendar)</label>
-              <input id="taskCalendarColor" type="color" list="presets" rows="4" value="#46AF5F" onchange="task.color = this.value">
+              <input id="taskCalendarColor" type="color" list="presets" rows="4" value="#46AF5F">
                 <datalist id="presets">
                   <option value="#46AF5F">Medium Sea Green</option>
                   <option value="#F6AF41">Yellow</option>
@@ -100,17 +98,18 @@
                   <option value="#1987B5">Aqua</option>
                 </datalist>
             </div>
+            <button id="add-btn" type="submit" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;" >Add</button>
           </form>
         </div>
-        <div class="modal-footer" >
-          <button id="add-btn" type="button" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;" onclick="addTask(task, addTaskModal)" >Add</button>
+        <div class="modal-footer">
         </div>
       </div>
     </div>
   </div>
 
-  <script>
-  </script>
+  <!-- <script defer>
+    var addTaskModal = new bootstrap.Modal('#addTaskModal')
+  </script> -->
 </body>
 
 </html>

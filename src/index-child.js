@@ -1,10 +1,13 @@
+import { calTime, colorScale } from "./utils/utilities.js";
+import DBcrud from "./utils/DBcrud.js";
+const db = new DBcrud();
 const cardShow = document.getElementById("card-show");
 var widgetStyle = ""
 
 const returnCard = (cards) => {
   return cards
     .map((card) => {
-      var minute = calDay(card.start, card.time.H, card.time.M)
+      var minute = calTime(card.start, card.time.H, card.time.M)
       var hour = minute / 60
       var day = hour / 24
       var perc = (day / 30) * 100;
@@ -37,11 +40,12 @@ const returnCard = (cards) => {
     .join(" ");
 };
 
+//re-calculate time and re-render cards
 const displayCard = () => {
   var tasks = JSON.parse(window.localStorage.getItem('tasks'))
-  var outOfDate = tasks.filter((t) => calDay(t.start, t.time.H, t.time.M) < 0);
+  var outOfDate = tasks.filter((t) => calTime(t.start, t.time.H, t.time.M) < 0);
   if(outOfDate.lenght){
-    outOfDate.map((t)=>deleteTask(t.id))
+    outOfDate.map(async (t)=> await db.deleteTask(t.id))
   }
   tasks = JSON.parse(window.localStorage.getItem('tasks'))
   cardShow.innerHTML = returnCard(tasks);

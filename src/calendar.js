@@ -1,10 +1,13 @@
+import fetch from "./utils/fetch.js"
+import DBcrud from "./utils/DBcrud.js"
+import { customTimePicker } from "./utils/utilities.js"
+const db = new DBcrud()
 const alertModal = new bootstrap.Modal('#alertModal')
 const confirmButton = document.getElementById("confirm-change")
 const cancelButton = document.getElementById("cancel-change")
 const selectedDate = document.getElementById("add-calendar-modal")
 const selectedTask = document.getElementById("detail-calendar-modal")
 var mainStyle = ""
-var task = { title: "", detail: "", start: null, time: { H: "00", M: "00" }, status: 'undone', color: '#46AF5F' }
 
 const addTaskCalendarModal = (date) => {
   return `<div class="modal fade zoom-in" id="addTaskModalCalendar" tabindex="-1">
@@ -17,33 +20,33 @@ const addTaskCalendarModal = (date) => {
           </button>
         </div>
         <div class="modal-body ${mainStyle}">
-          <form>
+          <form action="" id="calendar-task-form">
             <div class="form-group">
               <label for="taskTitle">Title</label>
               <p class="require-label"></p>
-              <input id="taskTitle" class="form-control" type="text" rows="1"  placeholder="Task Title" onchange="task.title = this.value">
+              <input id="taskTitle" class="form-control" type="text" rows="1"  placeholder="Task Title">
             </div>
             <div class="form-group" >
               <label for="startDatetime">Due Time</label>
               <div class="row" id="startDatetime">
                 <div class="col-2" style="padding-right: 0;"> 
-                  <select class="form-select" id="hour-select" onchange="task.time.H = this.value"></select>
+                  <select class="form-select" id="hour-select"></select>
                 </div>
                 <div class="col-1" style="padding: 0; width: 10px;text-align: center;">
                   <p>:</p>
                 </div>
                 <div class="col-2" style="padding: 0;">
-                  <select class="form-select" id="minute-select" onchange="task.time.M = this.value"></select>
+                  <select class="form-select" id="minute-select"></select>
                 </div>
               </div>
             </div>
             <div class="form-group">
               <label for="taskDetail">Detail</label>
-              <textarea class="form-control" id="taskDetail" rows="3" placeholder="Task Detail" onchange="task.detail = this.value"></textarea>
+              <textarea class="form-control" id="taskDetail" rows="3" placeholder="Task Detail"></textarea>
             </div>
             <div class="form-group">
               <label for="taskCalendarColor">Color (Calendar)</label>
-              <input id="taskCalendarColor" type="color" list="presets" rows="4" value="#46AF5F" onchange="task.color = this.value">
+              <input id="taskCalendarColor" type="color" list="presets" rows="4" value="#46AF5F">
                 <datalist id="presets">
                   <option value="#46AF5F">Medium Sea Green</option>
                   <option value="#F6AF41">Yellow</option>
@@ -53,10 +56,10 @@ const addTaskCalendarModal = (date) => {
                   <option value="#1987B5">Aqua</option>
                 </datalist>
             </div>
+            <button id="add-btn" type="submit" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;">Add</button>
           </form>
         </div>
         <div class="modal-footer ${mainStyle}" >
-          <button id="add-btn" type="button" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;">Add</button>
         </div>
       </div>
     </div>
@@ -89,16 +92,20 @@ const taskDetailCalendarModal = (task) => {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  sidenav.innerHTML += navbar(['', 'active', ''])
-  exitModal.innerHTML += exitAlertModal()
-  if(window.localStorage.getItem("light-mode") == 'true'){
+  //load common apparence and pre-load custion time picker
+  navbar(document.getElementById("sidenavbar"), ['', 'active', ''])
+  exitAlertModal(document.getElementById('exit-modal'))
+
+  if (window.localStorage.getItem("light-mode") == 'true') {
     mainStyle = "light-mode"
     lightMode()
   }
-  var calendarEl = document.getElementById("calendar");
+  //calendar render
   window.onload = async function () {
     var tasks_data = JSON.parse(await window.localStorage.getItem('undone_task'))
     tasks_data.map((t) => t.id = t._id)
+    //calendar
+    var calendarEl = document.getElementById("calendar");
     var calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: "dayGridMonth",
       height: 750,
@@ -110,13 +117,14 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       editable: true,
       dayMaxEventRows: true,
+      //drag and drop event handler
       eventDrop: function (info) {
         const data = { id: info.event.id, start: info.event.startStr }
         alertModal.show()
         confirmButton.addEventListener('click', async function (event) {
-          const res = await window.electronAPI.updateDateTask(data)
-          if (res.ok) {
-            await fetchData()
+          const res = await db.updateDateTask(data)
+          if (res) {
+            await fetch()
             tasks_data = JSON.parse(window.localStorage.getItem('undone_task'))
             tasks_data.map((t) => t.id = t._id)
           }
@@ -126,21 +134,47 @@ document.addEventListener("DOMContentLoaded", function () {
           window.location.reload()
         })
       },
+      //add task on selected date handler
       dateClick: function (info) {
-        task.start = info.dateStr
         selectedDate.innerHTML += addTaskCalendarModal(info.dateStr)
         var addTaskModal = new bootstrap.Modal('#addTaskModalCalendar')
         var addTaskModalEl = document.getElementById("addTaskModalCalendar")
-        var addBtn = document.getElementById("add-btn")
-        add24HourTimePicker()
+        var hourSelect = document.getElementById('hour-select')
+        var minuteSelect = document.getElementById('minute-select')
+        customTimePicker(hourSelect, minuteSelect)
         addTaskModal.show()
+        //add task form event listener
+        document.getElementById("calendar-task-form").addEventListener("submit", async (event) => {
+          event.preventDefault();
+          var task = { title: "", detail: "", start: null, time: { H: "00", M: "00" }, status: 'undone', color: '#46AF5F' }
+          task.start = info.dateStr
+          task.title = document.getElementById("taskTitle").value;
+          task.detail = document.getElementById("taskDetail").value;
+          task.time.H = document.getElementById("hour-select").value;
+          task.time.M = document.getElementById("minute-select").value;
+          task.color = document.getElementById("taskCalendarColor").value;
+          //validation
+          if ((task.title == "")) {
+            var reqLabel = document.getElementsByClassName("require-label")
+            Array.prototype.forEach.call(reqLabel, function (el) {
+              el.innerText = "*require"
+            })
+            return
+          }
+          console.log(task)
+          const res = await db.addTask(task);
+          if (res){
+            await fetch()
+            window.location.reload()
+          }
+          addTaskModal.hide()
+        })
+        //closing modal
         addTaskModalEl.addEventListener('hidden.bs.modal', async function (event) {
           selectedDate.innerHTML = ""
         })
-        addBtn.addEventListener('click', async () => {
-          addTask(task, addTaskModal)
-        })
       },
+      //task's detail modal showing handler
       eventClick: function (info) {
         var clickedTask = tasks_data.filter((t) => t.id == info.event.id)
         selectedTask.innerHTML += taskDetailCalendarModal(clickedTask[0])
@@ -148,13 +182,18 @@ document.addEventListener("DOMContentLoaded", function () {
         var taskDetailModalEl = document.getElementById("taskDetailModal")
         var doneTaskBtn = document.getElementById("done-btn")
         taskDetailModal.show()
-        taskDetailModalEl.addEventListener('hidden.bs.modal', async function (event) {
-          selectedTask.innerHTML = ""
-        })
+        //mark as done task handler
         doneTaskBtn.addEventListener('click', async () => {
-          await markAsDone(clickedTask[0].id)
+          const res = await db.markAsDone(clickedTask[0].id)
           tasks_data = tasks_data.filter((t) => t.id != clickedTask[0].id)
           window.localStorage.setItem("undone_task", JSON.stringify(tasks_data))
+          if (res) {
+            window.location.reload()
+          }
+        })
+        //closing modal
+        taskDetailModalEl.addEventListener('hidden.bs.modal', async function (event) {
+          selectedTask.innerHTML = ""
         })
       },
       events: tasks_data
