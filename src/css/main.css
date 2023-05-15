@@ -57,6 +57,19 @@
   .panel{
     background-color: #232323;
   }
+
+  .modal-content {
+    background-color: #2d2d2d;
+    border-radius: 15px;
+  }
+
+  .percentage {
+    fill: #f1f1f1;
+  }
+  
+  .circle-bg {
+    stroke: #eee;
+  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -108,6 +121,18 @@
   .panel{
     background-color: #f7f7f7;
   }
+
+  .modal-content {
+    border-radius: 15px;
+  }
+
+  .percentage{
+    fill: #242323;
+  }
+  
+  .circle-bg{
+    stroke: #dddbdb;
+  }
 }
 
 body::-webkit-scrollbar {
@@ -149,10 +174,8 @@ button.close {
 
 .modal-header {
   /* background-color: lightcoral; */
-  background-color: #3c3c3c;
   /* color: #111; */
-  border-radius: 15px;
-  color: white;
+  border-radius: 12px;
   -webkit-text-stroke-width: 1px;
   border-bottom: none;
 }
@@ -160,11 +183,6 @@ button.close {
 .modal-title {
   max-height: 45px;
   font-size: 30px;
-}
-
-.modal-content {
-  background-color: #3c3c3c;
-  border-radius: 15px;
 }
 
 .modal-body {
@@ -217,27 +235,12 @@ button.close {
 
 .percentage {
   font-family: "Custom Font";
-  fill: #f1f1f1;
   font-size: 0.5em;
   text-anchor: middle;
 }
 
 .circle-bg {
   fill: none;
-  stroke: #eee;
-  stroke-width: 3.8;
-}
-
-.percentage.light-mode {
-  font-family: "Custom Font";
-  fill: #242323;
-  font-size: 0.5em;
-  text-anchor: middle;
-}
-
-.circle-bg.light-mode{
-  fill: none;
-  stroke: #dddbdb;
   stroke-width: 3.8;
 }
 
@@ -269,4 +272,28 @@ a {
   background-color: rgb(238, 237, 237);
   color: #111;
 }
+/* Theme for widget */
+.percentage-child {
+  font-family: "Custom Font";
+  fill: #f1f1f1;
+  font-size: 0.5em;
+  text-anchor: middle;
+}
 
+.circle-bg-child{
+  fill: none;
+  stroke: #eee;
+  stroke-width: 3.8;
+}
+.percentage-child.light-mode {
+  font-family: "Custom Font";
+  fill: #242323;
+  font-size: 0.5em;
+  text-anchor: middle;
+}
+
+.circle-bg-child.light-mode{
+  fill: none;
+  stroke: #dddbdb;
+  stroke-width: 3.8;
+}

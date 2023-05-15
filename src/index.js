@@ -2,9 +2,6 @@ import DBcrud from "./utils/DBcrud.js";
 import fetch from "./utils/fetch.js";
 import {customTimePicker, calTime, colorScale} from "./utils/utilities.js"
 const db = new DBcrud();
-const add_btn = document.getElementById("add-btn");
-var headerTitle = document.getElementById("header-title")
-var mainStyle = ""
 var modalHasShow = false
 
 //fetch and display data
@@ -98,11 +95,11 @@ const returnCard = (cards) => {
       var perc = (day / 30) * 100;
       perc = perc > 100 ? 99 : perc;
       return `    
-      <div class="card ${mainStyle}" style="width: 15rem;text-align: center;min-width: 15em;border:none;cursur: pointer;" data-bs-toggle="modal" data-bs-target="#openCard${card._id
+      <div class="card" style="width: 15rem;text-align: center;min-width: 15em;border:none;cursur: pointer;" data-bs-toggle="modal" data-bs-target="#openCard${card._id
         }">
         <div class="single-chart">
           <svg viewBox="0 0 36 36" class="circular-chart" >
-            <path class="circle-bg ${mainStyle}"
+            <path class="circle-bg"
               d="M18 2.0845
                 a 15.9155 15.9155 0 0 1 0 31.831
                 a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -113,8 +110,8 @@ const returnCard = (cards) => {
                 a 15.9155 15.9155 0 0 1 0 31.831
                 a 15.9155 15.9155 0 0 1 0 -31.831"
             />
-            <text x="18" y="19" class="percentage ${mainStyle}" style="font-size:0.70em;">${day > 1 ? Math.ceil(day) : hour > 1 ? Math.ceil(hour) : minute}</text>
-            <text x="18" y="24" class="percentage ${mainStyle}" style="font-size: 0.3em;">${day > 1 ? "Days" : hour > 1 ? "Hours" : "Minutes"}</text>
+            <text x="18" y="19" class="percentage" style="font-size:0.70em;">${day > 1 ? Math.ceil(day) : hour > 1 ? Math.ceil(hour) : minute}</text>
+            <text x="18" y="24" class="percentage" style="font-size: 0.3em;">${day > 1 ? "Days" : hour > 1 ? "Hours" : "Minutes"}</text>
           </svg>
         </div>
         <div class="card-body">
@@ -132,11 +129,11 @@ const returnCard = (cards) => {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body ${mainStyle}">
+      <div class="modal-body">
         <h6>${card.title}</h6>
         <p>"${card.detail}"</p>
       </div>
-      <div class="modal-footer ${mainStyle}">
+      <div class="modal-footer">
         <button id="done-btn" type="button" class="btn btn-primary done-btn"  data-bs-dismiss="modal" style="width: 100%;" value="${card._id}" >Mask as Done</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width: 100%;">Close</button>
       </div>
@@ -152,10 +149,10 @@ const returnDoneCard = (cards) => {
   return cards
     .map((card) => {
       return `    
-      <div class="card ${mainStyle}" style="width: 15rem;text-align: center;min-width: 15em;border:none;cursur: pointer;" data-bs-toggle="modal" data-bs-target="#openDoneCard${card._id}">
+      <div class="card" style="width: 15rem;text-align: center;min-width: 15em;border:none;cursur: pointer;" data-bs-toggle="modal" data-bs-target="#openDoneCard${card._id}">
         <div class="single-chart">
           <svg viewBox="0 0 36 36" class="circular-chart" >
-            <path class="circle-bg ${mainStyle}"
+            <path class="circle-bg"
               d="M18 2.0845
                 a 15.9155 15.9155 0 0 1 0 31.831
                 a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -166,7 +163,7 @@ const returnDoneCard = (cards) => {
                 a 15.9155 15.9155 0 0 1 0 31.831
                 a 15.9155 15.9155 0 0 1 0 -31.831"
             />
-            <text x="18" y="20" class="percentage ${mainStyle}">Done!</text>
+            <text x="18" y="20" class="percentage">Done!</text>
           </svg>
         </div>
         <div class="card-body">
@@ -183,12 +180,12 @@ const returnDoneCard = (cards) => {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body ${mainStyle}">
+      <div class="modal-body">
         <p class="due-text">Done : ${card.done}</p>
         <h6>${card.title}</h6>
         <p>"${card.detail}"</p>
       </div>
-      <div class="modal-footer ${mainStyle}">
+      <div class="modal-footer">
         <button id="delete-btn" type="button" class="btn btn-danger delete-btn" data-bs-dismiss="modal" style="width: 100%;" value="${card._id}" >Delete</button>
       </div>
     </div>
@@ -221,12 +218,7 @@ window.onload = async function () {
   customTimePicker(hourSelect, minuteSelect);
   navbar(document.getElementById("sidenavbar"), ['active', '', '']);
   exitAlertModal(document.getElementById('exit-modal'));
-  //check theme mode
-  if (window.localStorage.getItem("light-mode") == "true") {
-    lightMode()
-    mainStyle = "light-mode"
-  }
-
+  //start fetch data and renderring
   await fetchData()
   modalEventFlag()
 };

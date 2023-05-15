@@ -7,19 +7,18 @@ const confirmButton = document.getElementById("confirm-change")
 const cancelButton = document.getElementById("cancel-change")
 const selectedDate = document.getElementById("add-calendar-modal")
 const selectedTask = document.getElementById("detail-calendar-modal")
-var mainStyle = ""
 
 const addTaskCalendarModal = (date) => {
   return `<div class="modal fade zoom-in" id="addTaskModalCalendar" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header ${mainStyle}">
+        <div class="modal-header">
           <h5 class="modal-title">Add Task on ${date}</h5>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body ${mainStyle}">
+        <div class="modal-body">
           <form action="" id="calendar-task-form">
             <div class="form-group">
               <label for="taskTitle">Title</label>
@@ -59,7 +58,7 @@ const addTaskCalendarModal = (date) => {
             <button id="add-btn" type="submit" class="btn btn-primary" style="width: 100%;background-color:rgb(73, 129, 73); border: none;">Add</button>
           </form>
         </div>
-        <div class="modal-footer ${mainStyle}" >
+        <div class="modal-footer" >
         </div>
       </div>
     </div>
@@ -77,11 +76,11 @@ const taskDetailCalendarModal = (task) => {
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body ${mainStyle}">
+      <div class="modal-body">
         <h6>${task.title}</h6>
         <p>"${task.detail}"</p>
       </div>
-      <div class="modal-footer ${mainStyle}">
+      <div class="modal-footer">
         <button id="done-btn" type="button" class="btn btn-primary"  style="width: 100%;" >Mask as Done</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" style="width: 100%;">Close</button>
       </div>
@@ -95,11 +94,6 @@ document.addEventListener("DOMContentLoaded", function () {
   //load common apparence and pre-load custion time picker
   navbar(document.getElementById("sidenavbar"), ['', 'active', ''])
   exitAlertModal(document.getElementById('exit-modal'))
-
-  if (window.localStorage.getItem("light-mode") == 'true') {
-    mainStyle = "light-mode"
-    lightMode()
-  }
   //calendar render
   window.onload = async function () {
     var tasks_data = JSON.parse(await window.localStorage.getItem('undone_task'))
@@ -198,9 +192,9 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       events: tasks_data
     });
-
     calendar.render();
-    if (mainStyle == 'light-mode') {
+    //Set text theme
+    if (window.localStorage.getItem("light-mode") == "true") {
       var aTag = document.getElementsByTagName("a")
       for (var i = 0; i < aTag.length; i++) {
         aTag[i].style.color = "black"

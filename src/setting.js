@@ -40,9 +40,6 @@ window.onload = async function () {
   widgetStyleCheckBox.checked = !(window.localStorage.getItem("light-mode-widget") == 'true')
   autoLaunchCheck.checked = (window.localStorage.getItem("auto-launch") == 'true')
   widgetAlwayTopCheckBox.checked = (window.localStorage.getItem("widget-alway-top") == 'true')
-  if (mainStyle == 'true') {
-    lightMode()
-  }
   var widgetTrans = window.localStorage.getItem('widget-transparent')
   if (widgetTrans == null) {
     widgetTrans = 0.7

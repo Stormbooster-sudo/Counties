@@ -8,6 +8,23 @@
     }
 }
 
+:root {
+    color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark){
+    .card:hover {
+        background-color: #262626;
+    }
+    
+}
+
+@media (prefers-color-scheme: light){
+    .card:hover {
+        background-color: #edededde;
+    }
+}
+
 .text-count {
     height: 45px;
     margin-bottom: 0.5em;
@@ -59,7 +76,6 @@
 }
 
 .card:hover {
-    background-color: #262626;
     transition-duration: 350ms;
 }
 
@@ -68,16 +84,6 @@
     max-height: 6em;
     overflow-y: hidden;
 }
-
-.card.light-mode {
-    background: transparent;
-}
-
-.card.light-mode:hover {
-    background-color: #edededde;
-    transition-duration: 350ms;
-}
-
 /* .fill-div{
     height: 100%;
     width: 100%;
@@ -89,6 +95,7 @@
     width: 5em;
     height: 5em;
     position: fixed;
+    color: white;
     background-color: rgba(235, 108, 108, 0.7);
     border-radius: 4em;
     text-align: center;
@@ -100,16 +107,8 @@
     transition-duration: 100ms;
 }
 
-.modal-content {
-    background-color: #3c3c3c;
-}
-
 .modal-body {
     font-size: 20px;
-}
-
-.modal-footer {
-    border-top: none;
 }
 
 .form-group {

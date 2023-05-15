@@ -30,14 +30,3 @@ const exitAlertModal = (element) => {
   </div>
     `
 }
-
-const lightMode = () => {
-    var modalHeader = document.getElementsByClassName("modal-header")
-    var modalBody = document.getElementsByClassName("modal-body")
-    var modalFooter = document.getElementsByClassName("modal-footer")
-    for (var i = 0; i < modalHeader.length; i++) {
-        modalHeader[i].classList.add('light-mode')
-        modalBody[i].classList.add('light-mode')
-        modalFooter[i].classList.add('light-mode')
-    }
-}
