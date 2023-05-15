@@ -1,6 +1,6 @@
 import DBcrud from "./utils/DBcrud.js";
 import fetch from "./utils/fetch.js";
-import {customTimePicker, calTime, colorScale} from "./utils/utilities.js"
+import {customTimePicker, calTime, colorScale, convertDateFormat} from "./utils/utilities.js"
 const db = new DBcrud();
 var modalHasShow = false
 
@@ -124,7 +124,7 @@ const returnCard = (cards) => {
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color:${colorScale(perc)};" >
-        <h5 class="modal-title" id="exampleModalLongTitle">Due ${`${card.start} ${card.time.H}:${card.time.M}`}</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Due ${`${convertDateFormat(card.start)} ${card.time.H}:${card.time.M}`}</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -175,13 +175,13 @@ const returnDoneCard = (cards) => {
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color: gray;" >
-        <h5 class="modal-title" id="exampleModalLongTitle">Due ${`${card.start} ${card.time.H}:${card.time.M}`}</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Due ${`${convertDateFormat(card.start)} ${card.time.H}:${card.time.M}`}</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <p class="due-text">Done : ${card.done}</p>
+        <p class="due-text">Done : ${convertDateFormat((card.done.split(" "))[0])} ${(card.done.split(" "))[1]}</p>
         <h6>${card.title}</h6>
         <p>"${card.detail}"</p>
       </div>

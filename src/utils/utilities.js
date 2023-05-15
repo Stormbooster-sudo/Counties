@@ -34,6 +34,13 @@ const calTime = (d, h, m) => {
     return Math.round(difDate / (1000 * 60));
 };
 
+//convert date time format
+const convertDateFormat = (date) =>{
+    var d = new Date(date);
+    var strArray = d.toString().split(" ").slice(0, 4)
+    return `${strArray[0]} ${strArray[2]} ${strArray[1]} ${strArray[3]}`
+}
+
 //calculate the code color for each task by its different time from current time
 const colorScale = (perc) => {
     var r, g, b = 0;
@@ -48,4 +55,4 @@ const colorScale = (perc) => {
     return "#" + ("000000" + h.toString(16)).slice(-6);
 };
 
-export {customTimePicker, calTime, colorScale}
+export {customTimePicker, calTime, colorScale, convertDateFormat}

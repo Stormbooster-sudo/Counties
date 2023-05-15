@@ -1,6 +1,6 @@
 import fetch from "./utils/fetch.js"
 import DBcrud from "./utils/DBcrud.js"
-import { customTimePicker } from "./utils/utilities.js"
+import { customTimePicker, convertDateFormat } from "./utils/utilities.js"
 const db = new DBcrud()
 const alertModal = new bootstrap.Modal('#alertModal')
 const confirmButton = document.getElementById("confirm-change")
@@ -13,7 +13,7 @@ const addTaskCalendarModal = (date) => {
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Add Task on ${date}</h5>
+          <h5 class="modal-title">Add Task on ${convertDateFormat(date)}</h5>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -71,7 +71,7 @@ const taskDetailCalendarModal = (task) => {
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header" style="background-color:${task.color};" >
-        <h5 class="modal-title" id="exampleModalLongTitle">Due ${`${task.start} ${task.time.H}:${task.time.M}`}</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">Due ${`${convertDateFormat(task.start)} ${task.time.H}:${task.time.M}`}</h5>
         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
