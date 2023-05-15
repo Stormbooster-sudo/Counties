@@ -14,6 +14,14 @@
     margin: 0;
 }
 
+.fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button-active{
+    border-radius: 15px;
+}
+
+.fc-today-button.fc-button.fc-button-primary {
+    border-radius: 15px;
+}
+
 .fc-daygrid-day-frame:hover {
     background-color: #dfdfdf;
 }

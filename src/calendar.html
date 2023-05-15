@@ -1,46 +1,51 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script defer src="./utils/bootstrap.bundle.min.js"></script>
-    <!-- use "defer" for bootstrap module -->
-    <script defer src="./calendar.js" type="module"></script>  
-    <script defer src="./utils/common-apparence.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/main.css"> 
-    <link rel="stylesheet" href="css/calendar.css">   
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"/>
-  </head>
-  <body>
-    <div class="sidenav" id="sidenavbar"></div>
-    <div id="exit-modal"></div>
 
-    <div class="modal fade zoom-in" tabindex="-1" id="alertModal">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header dark-mode">
-            <h5 class="modal-title">Are you sure?</h5>
-          </div>
-          <div class="modal-body dark-mode">
-            <p>Are you sure to change task due date?</p>
-          </div>
-          <div class="modal-footer dark-mode">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancel-change">Cancel</button>
-            <button type="button" class="btn btn-primary" id="confirm-change">Confirm</button>
-          </div>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script defer src="./utils/bootstrap.bundle.min.js"></script>
+  <!-- use "defer" for bootstrap module -->
+  <script defer src="./calendar.js" type="module"></script>
+  <script defer src="./utils/common-apparence.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/calendar.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+</head>
+
+<body>
+  <div class="sidenav" id="sidenavbar"></div>
+  <div id="exit-modal"></div>
+
+  <div class="modal fade zoom-in" tabindex="-1" id="alertModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header dark-mode">
+          <h5 class="modal-title">Are you sure?</h5>
+        </div>
+        <div class="modal-body dark-mode">
+          <p>Are you sure to change task due date?</p>
+        </div>
+        <div class="modal-footer dark-mode">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="cancel-change">Cancel</button>
+          <button type="button" class="btn btn-primary" id="confirm-change">Confirm</button>
         </div>
       </div>
     </div>
+  </div>
 
-    <div id="add-calendar-modal"></div>
-    <div id="detail-calendar-modal"></div>
+  <div id="add-calendar-modal"></div>
+  <div id="detail-calendar-modal"></div>
 
-    <div class="main" style="margin-right: 2em;">
+  <div class="main">
+    <div class="panel">
       <div id="calendar"></div>
     </div>
-    
-  </body>
+  </div>
+
+</body>
+
 </html>

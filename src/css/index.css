@@ -55,10 +55,12 @@
 
 .card {
     background: transparent;
+    border-radius: 15px;
 }
 
 .card:hover {
-    background-color: #111;
+    background-color: #262626;
+    transition-duration: 350ms;
 }
 
 .card-body {
@@ -72,7 +74,8 @@
 }
 
 .card.light-mode:hover {
-    background-color: #bdbdbdde;
+    background-color: #edededde;
+    transition-duration: 350ms;
 }
 
 /* .fill-div{

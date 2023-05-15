@@ -199,6 +199,7 @@ const returnDoneCard = (cards) => {
     .join(" ");
 };
 
+//checking if there's a modal is open, prevent bug
 const modalEventFlag = () => {
   var modals = document.getElementsByClassName('modal')
   for (var i = 0; i < modals.length; i++) {
