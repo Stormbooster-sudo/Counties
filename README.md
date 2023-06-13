@@ -13,7 +13,7 @@ Countes provides the following features:
 - Customize task or event on calendar
 - Dark/Light mode support both app and widget
 - Customize widget apparence
-- Run on start-up
+- Run on startup
 
 ## How To Install
 To clone and run this application command line:
@@ -39,13 +39,22 @@ $ npm run package-win
 
 Or you can [download](https://github.com/Stormbooster-sudo/Counties/releases/download/v1.0.0/Counties-win32-x64.zip) app from release and extract the zip file into your **Program Files** folder
 
-## Screenshot
+## How To Use
+You can open the widget by minimising the main app and reopening the main app by right click on the widget(If there is any task/event is displayed) or right click on Windows tray icons.
+
+## Demo & Screenshot
+<p align="center">Demo</p>
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/77887797/234918292-6ab946f3-1dcb-442c-9a17-260c47ea7f2c.gif">
+    <img width="760" src="https://github.com/Stormbooster-sudo/Counties/assets/77887797/1aca4b85-685c-491f-a049-a315a2875374">
 </p>
-<p align="center">Home Page and How To Open Widget</p>
+<p align="center">Light Theme</p>
 <p align="center">
-    <img src="https://user-images.githubusercontent.com/77887797/234924422-7bee933a-c355-4312-a8a2-52355afe0bca.gif">
+    <img width="760" src="https://github.com/Stormbooster-sudo/Counties/assets/77887797/f566bc29-7a80-47f3-bbd8-548ca25c31ce">
 </p>
-<p align="center">Drag and Drop Task/Event</p>
+<p align="center">
+    <img width="760" src="https://github.com/Stormbooster-sudo/Counties/assets/77887797/9056c4a5-fa91-4753-b5ad-0c783a8dfab7">
+</p>
+
+## Contributing
+🤝 Any ideas are welcomed!
 
