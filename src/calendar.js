@@ -12,7 +12,7 @@ const addTaskCalendarModal = (date) => {
   return `<div class="modal fade zoom-in" id="addTaskModalCalendar" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header" style="border: none;">
           <h5 class="modal-title">Add Task on ${convertDateFormat(date)}</h5>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>

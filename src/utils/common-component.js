@@ -1,9 +1,9 @@
 const navbar = (element, page) => {
     element.innerHTML += `
-    <a href="index.html" class="${page[0]}"><i class="bi bi-house-door" style="font-size: 26px; margin-right: 1px;"></i></a>
-      <a href="calendar.html" class="${page[1]}"><i class="bi bi-calendar3" style="font-size: 23px; margin-right: 3px;margin-left: 3px;"></i></a>
-      <a href="setting.html" class="${page[2]}"><i class="bi bi-gear" style="font-size: 26px; margin-right: 1px;"></i></a>  
-      <a class="logout-btn" style="position: fixed;bottom: 0;text-align: center;width: 3.2em;" data-bs-toggle="modal" data-bs-target="#logoutAlert"><i class="bi bi-box-arrow-left" style="font-size: 23px; margin-right: 6px;margin-left: 2px;padding-top: 4px"></i></a>
+    <a href="index.html" class="${page[0]}"><i class="fa fa-home"></i></a>
+      <a href="calendar.html" class="${page[1]}"><i class="fa fa-calendar"></i></a>
+      <a href="setting.html" class="${page[2]}"><i class="fa fa-cog"></i></a>  
+      <a class="logout-btn" style="position: fixed;bottom: 0;text-align: center;width: 3.2em; display: block;" data-bs-toggle="modal" data-bs-target="#logoutAlert"><i class="fa fa-sign-out"></i></a>
     `
 }
 
@@ -12,7 +12,7 @@ const exitAlertModal = (element) => {
     <div class="modal fade zoom-in" id="logoutAlert" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog  modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header">
+        <div class="modal-header" style="border: none;">
           <h5 class="modal-title" id="exampleModalLabel">Quit?</h5>
           <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>

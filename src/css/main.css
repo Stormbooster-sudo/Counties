@@ -14,53 +14,44 @@
     color: white;
   }
   .sidenav {
-    height: 100%;
-    width: 4em;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
     background-color: #111;
-    text-align: center;
-    overflow-x: hidden;
-    padding-top: 25px;
+    border-right: #111 solid 3px;
   }
   
   .sidenav a {
-    text-decoration: none;
-    margin-bottom: 1em;
-    font-size: 18px;
     color: #d4d3d3;
-    display: block;
-    margin-left: 3px;
-    margin-right: 3px;
-    padding-bottom: 8px;
   }
   
   .sidenav a:hover {
     background-color: #525252;
     color: #f1f1f1;
-    border-radius: 15px;
-    transition-duration: 350ms;
   }
   
   .sidenav a.active {
     background-color: rgba(75, 75, 75, 0.215);
     color: #ffffff;
-    border-radius: 15px;
   }
   
   .sidenav a.logout-btn:hover {
     background-color: rgba(217, 52, 52, 0.57);
   }
 
+  .btn {
+    border: #fefefe solid 3px;
+  }
   .panel{
     background-color: #232323;
+    border: #fefefe solid 3px;
   }
 
   .modal-content {
     background-color: #2d2d2d;
     border-radius: 15px;
+    border: #fefefe solid 3px;
+  }
+
+  .modal-header {
+    border-bottom: #fefefe solid 4px;
   }
 
   .percentage {
@@ -74,56 +65,51 @@
 
 @media (prefers-color-scheme: light) {
   body {
-    background-color: #ededed;
+    background-color: #FEF4D5;
     font-family: "Custom Font";
     color: #111;
   }
   .sidenav {
-    background-color: #ffffff;
-    height: 100%;
-    width: 4em;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    text-align: center;
-    overflow-x: hidden;
-    padding-top: 25px;
+    background-color: #EFE8E8;
+    border-right: #111 solid 3px;
   }
   
   .sidenav a {
     color: #303030;
-    text-decoration: none;
-    margin-bottom: 1em;
-    font-size: 18px;
-    display: block;
-    margin-left: 3px;
-    margin-right: 3px;
-    padding-bottom: 8px;
+    border: #EFE8E8 solid 2px;
   }
   
   .sidenav a:hover {
     background-color: #e6e6e6;
     color: #2c2c2c;
-    border-radius: 15px;
-    transition-duration: 350ms;
+    border: #111 solid 2px;
   }
   
   .sidenav a.active {
     background-color: rgba(212, 212, 212, 0.733);
-    border-radius: 15px;
+    border: #111 solid 2px;
   }
 
   .sidenav a.logout-btn:hover {
     background-color: rgba(217, 52, 52, 0.57);
+    border: #111 solid 2px;
   }
 
   .panel{
-    background-color: #f7f7f7;
+    background-color: #FFFCFC;
+    border: #111 solid 3px;
   }
 
+  .btn {
+    border: #111 solid 2px;
+  }
   .modal-content {
     border-radius: 15px;
+    border: #111 solid 2px;
+  }
+
+  .modal-header {
+    border-bottom: #111 solid 4px;
   }
 
   .percentage{
@@ -151,12 +137,48 @@ body::-webkit-scrollbar-thumb {
   min-width: 32px;
   min-height: 32px;
 }
+.main {
+  margin-left: 6em;
+}
 
 .main .panel {
   margin-top: 1em;
-  margin-left: 6em;
-  margin-right: 2em;
+  margin-left: 5%;
+  margin-right: 5%;
   padding: 1.5em;
+  border-radius: 15px;
+}
+
+.sidenav {
+  height: 100%;
+  width: 6em;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  padding-top: 25px;
+}
+
+.sidenav a {
+  text-decoration: none;
+  font-size: 28px;
+  text-align: center;
+  display: block;
+  padding-top: 0.5em;
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-bottom: 0.5em;
+  padding-bottom: 8px;
+  border-radius: 15px;
+}
+
+.sidenav a:hover {
+  border-radius: 15px;
+  transition-duration: 350ms;
+}
+
+.sidenav a.active {
   border-radius: 15px;
 }
 
@@ -177,7 +199,6 @@ button.close {
   /* color: #111; */
   border-radius: 12px;
   -webkit-text-stroke-width: 1px;
-  border-bottom: none;
 }
 
 .modal-title {
